@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito</title>
+</head>
+<body>
+    <h1>Carrito</h1>
+
+    {% for item in items %}
+        <div>
+            <p>Producto ID: {{ item.producto_id }}</p>
+            <p>Cantidad: {{ item.cantidad }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>

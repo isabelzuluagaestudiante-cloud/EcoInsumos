@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>EcoInsumos - Administracion</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/general.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="container nav-container">
+
+        <a
+            href="/admin"
+            class="brand">
+            <div class="brand-mark">EI</div>
+            <span>Eco<span>Insumos</span></span>
+        </a>
+
+        <div class="auth-buttons">
+            <a
+                href="/auth/logout"
+                class="stamp-btn">
+                Cerrar sesion
+            </a>
+        </div>
+
+    </div>
+
+</header>
+
+<main class="container">
+
+    <section class="hero">
+
+        <div class="hero-inner">
+
+            <span class="eyebrow">ADMIN</span>
+
+            <h1>
+                Bienvenido,
+                <span>{{ nombre }}</span>
+            </h1>
+
+            <p>
+                Gestion basica de usuarios registrados.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="catalog">
+
+        <div class="catalog-head">
+            <div>
+                <h2>Usuarios registrados</h2>
+                <p>
+                    Total: {{ usuarios|length }}
+                </p>
+            </div>
+        </div>
+
+        <div class="grid">
+
+            {% for usuario in usuarios %}
+
+                <article class="card">
+                    <span class="tag">
+                        {{ usuario.rol }}
+                    </span>
+
+                    <h3>{{ usuario.nombre }}</h3>
+
+                    <p class="desc">
+                        {{ usuario.email }}
+                    </p>
+
+                    <p>
+                        Estado:
+                        <strong>
+                            {{ "Activo" if usuario.activo else "Inactivo" }}
+                        </strong>
+                    </p>
+                </article>
+
+            {% else %}
+
+                <article class="card">
+                    <h3>Sin usuarios</h3>
+                    <p class="desc">
+                        Aun no hay usuarios registrados.
+                    </p>
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

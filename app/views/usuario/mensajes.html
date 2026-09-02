@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Mensajes - EcoInsumos
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/general.css">
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <div class="container nav-container">
+
+        <a
+            href="/usuario"
+            class="brand">
+
+            <div class="brand-mark">
+                EI
+            </div>
+
+            <span>
+                Eco<span>Insumos</span>
+            </span>
+
+        </a>
+
+        <button class="hamburger" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+            <span></span>
+        </button>
+
+        <div class="topbar-nav">
+
+            <nav class="nav-links">
+
+                <a href="/usuario">
+                    Inicio
+                </a>
+
+                <a href="/usuario/objetos">
+                    Objetos disponibles
+                </a>
+
+                <a href="/usuario/publicar">
+                    Publicar objeto
+                </a>
+
+                <a
+                    href="/usuario/mensajes"
+                    class="active">
+                    Mensajes
+                </a>
+
+            </nav>
+
+            <div class="auth-buttons">
+                <div class="user-chip">
+                    <span class="user-icon">
+                        👤
+                    </span>
+                    <span class="user-name">
+                        {{ nombre }}
+                    </span>
+                </div>
+
+                <a
+                    href="/auth/logout"
+                    class="stamp-btn">
+                    Cerrar sesión
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="container catalog">
+
+
+    <div class="catalog-head">
+
+        <div>
+
+            <h1>
+                Mis mensajes
+            </h1>
+
+            <p>
+                Consulta tus mensajes.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if mensajes %}
+
+        <div class="grid">
+
+            {% for mensaje in mensajes %}
+
+                <article class="card">
+
+                    <span class="tag">
+                        Mensaje
+                    </span>
+
+
+                    <h3>
+                        {{ mensaje.objeto.nombre }}
+                    </h3>
+
+
+                    <p class="desc">
+                        {{ mensaje.contenido }}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            De:
+                        </strong>
+
+                        {{ mensaje.remitente.nombre }}
+                    </p>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <article class="card">
+
+            <div class="card-img-placeholder">
+                💬
+            </div>
+
+            <h3>
+                No tienes mensajes
+            </h3>
+
+            <p class="desc">
+                Cuando contactes a un publicador
+                tus mensajes aparecerán aquí.
+            </p>
+
+        </article>
+
+    {% endif %}
+
+
+</main>
+
+
+</body>
+
+</html>

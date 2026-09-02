@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Publicar objeto - EcoInsumos
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/general.css">
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <div class="container nav-container">
+
+        <a
+            href="/usuario"
+            class="brand">
+
+            <div class="brand-mark">
+                EI
+            </div>
+
+            <span>
+                Eco<span>Insumos</span>
+            </span>
+
+        </a>
+
+        <button class="hamburger" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+            <span></span>
+        </button>
+
+        <div class="topbar-nav">
+
+            <nav class="nav-links">
+
+                <a href="/usuario">
+                    Inicio
+                </a>
+
+                <a href="/usuario/objetos">
+                    Objetos disponibles
+                </a>
+
+                <a
+                    href="/usuario/publicar"
+                    class="active">
+                    Publicar objeto
+                </a>
+
+                <a href="/usuario/mensajes">
+                    Mensajes
+                </a>
+
+            </nav>
+
+            <div class="auth-buttons">
+                <div class="user-chip">
+                    <span class="user-icon">
+                        👤
+                    </span>
+                    <span class="user-name">
+                        {{ nombre }}
+                    </span>
+                </div>
+
+                <a
+                    href="/auth/logout"
+                    class="stamp-btn">
+                    Cerrar sesión
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <section class="catalog">
+
+
+        <div class="catalog-head">
+
+            <div>
+
+                <h1>
+                    Publicar objeto usado
+                </h1>
+
+                <p>
+                    Comparte un objeto que ya no utilizas.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENSAJE -->
+
+        {% if error %}
+
+            <div class="modal-message error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        {% if mensaje %}
+
+            <div class="modal-message success">
+                {{ mensaje }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- FORMULARIO -->
+
+        <form
+            action="/usuario/publicar"
+            method="post"
+            enctype="multipart/form-data"
+            class="modal">
+
+
+            <label for="nombre">
+                Nombre del objeto
+            </label>
+
+            <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                placeholder="Ej: Bicicleta"
+                required>
+
+
+            <label for="descripcion">
+                Descripción
+            </label>
+
+            <textarea
+                id="descripcion"
+                name="descripcion"
+                rows="6"
+                placeholder="Describe el estado y características del objeto..."
+                required></textarea>
+
+
+            <label for="imagen">
+                Foto del objeto
+            </label>
+
+            <input
+                type="file"
+                id="imagen"
+                name="imagen"
+                accept="image/*">
+
+
+            <button
+                type="submit"
+                class="submit-btn">
+
+                Publicar objeto
+
+            </button>
+
+
+        </form>
+
+
+    </section>
+
+</main>
+
+
+</body>
+
+</html>

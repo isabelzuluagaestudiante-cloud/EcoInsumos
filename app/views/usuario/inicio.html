@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>EcoInsumos - Usuario</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/general.css">
+</head>
+
+<body>
+
+    <!-- ==============================
+         NAVBAR
+    =============================== -->
+
+    <header class="topbar">
+
+        <div class="container nav-container">
+
+            <a href="/usuario" class="brand">
+                <div class="brand-mark">
+                    EI
+                </div>
+
+                <span>
+                    Eco<span>Insumos</span>
+                </span>
+            </a>
+
+            <button class="hamburger" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+                <span></span>
+            </button>
+
+
+            <div class="topbar-nav">
+
+            <nav class="nav-links">
+
+                <a
+                    href="/usuario"
+                    class="active">
+                    Inicio
+                </a>
+
+                <a href="/usuario/objetos">
+                    Objetos disponibles
+                </a>
+
+                <a href="/usuario/publicar">
+                    Publicar objeto
+                </a>
+
+                <a href="/usuario/mensajes">
+                    Mensajes
+                </a>
+
+            </nav>
+
+
+            <div class="auth-buttons">
+                <div class="user-chip">
+                    <span class="user-icon">
+                        👤
+                    </span>
+                    <span class="user-name">
+                        {{ nombre }}
+                    </span>
+                </div>
+
+                <a
+                    href="/auth/logout"
+                    class="stamp-btn">
+                    Cerrar sesión
+                </a>
+
+            </div>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ==============================
+         CONTENIDO
+    =============================== -->
+
+    <main class="container">
+
+        <section class="hero">
+
+            <div class="hero-inner">
+
+                <span class="eyebrow">
+                    ECOINSUMOS
+                </span>
+
+                <h1>
+                    Bienvenido a
+                    <span>EcoInsumos</span>
+                </h1>
+
+                <p>
+                    Encuentra objetos disponibles,
+                    publica objetos usados y
+                    contacta con otros usuarios.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             OPCIONES
+        =============================== -->
+
+        <section class="catalog">
+
+            <div class="catalog-head">
+
+                <h2>
+                    ¿Qué deseas hacer?
+                </h2>
+
+            </div>
+
+
+            <div class="grid">
+
+                <!-- OBJETOS -->
+
+                <article class="card">
+
+                    <div class="card-img-placeholder">
+                        🔎
+                    </div>
+
+                    <h3>
+                        Buscar objetos
+                    </h3>
+
+                    <p class="desc">
+                        Consulta los objetos
+                        disponibles dentro del sistema.
+                    </p>
+
+                    <a
+                        href="/usuario/objetos"
+                        class="btn-solid">
+                        Ver objetos
+                    </a>
+
+                </article>
+
+
+                <!-- PUBLICAR -->
+
+                <article class="card">
+
+                    <div class="card-img-placeholder">
+                        📦
+                    </div>
+
+                    <h3>
+                        Publicar objeto
+                    </h3>
+
+                    <p class="desc">
+                        Publica un objeto usado
+                        con descripción y fotografías.
+                    </p>
+
+                    <a
+                        href="/usuario/publicar"
+                        class="btn-solid">
+                        Publicar
+                    </a>
+
+                </article>
+
+
+                <!-- MENSAJES -->
+
+                <article class="card">
+
+                    <div class="card-img-placeholder">
+                        💬
+                    </div>
+
+                    <h3>
+                        Mis mensajes
+                    </h3>
+
+                    <p class="desc">
+                        Consulta los mensajes
+                        recibidos y enviados.
+                    </p>
+
+                    <a
+                        href="/usuario/mensajes"
+                        class="btn-solid">
+                        Ver mensajes
+                    </a>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==============================
+         FOOTER
+    =============================== -->
+
+    <footer>
+
+        <div class="container footer-content">
+
+            <p>
+                <strong>EcoInsumos</strong>
+                — Reutiliza, comparte y encuentra.
+            </p>
+
+            <p class="footer-note">
+                © 2026 EcoInsumos
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

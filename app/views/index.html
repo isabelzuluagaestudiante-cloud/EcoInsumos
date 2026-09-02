@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoInsumos — Utensilios de Oficina y Escuela</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/general.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="container nav-container">
+
+            <a href="/" class="brand">
+                <div class="brand-mark">EI</div>
+                <span>Eco<span>Insumos</span></span>
+            </a>
+
+            <div class="search-bar">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Buscar objetos..."
+                >
+
+                <button
+                    type="button"
+                    aria-label="Buscar"
+                    id="searchButton">
+                    🔍
+                </button>
+
+            </div>
+
+            <div class="auth-buttons">
+
+                <!-- LOGIN -->
+                <button
+                    type="button"
+                    class="stamp-btn"
+                    id="openLogin">
+                    Iniciar sesión
+                </button>
+
+                <!-- REGISTRO -->
+                <button
+                    type="button"
+                    class="stamp-btn primary"
+                    id="openRegister">
+                    Crear cuenta
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-holes" aria-hidden="true">
+            <span class="hole"></span>
+            <span class="hole"></span>
+            <span class="hole"></span>
+            <span class="hole"></span>
+            <span class="hole"></span>
+        </div>
+
+        <div class="container hero-inner">
+
+            <span class="eyebrow">
+                — EcoInsumos
+            </span>
+
+            <h1>
+                Dale una segunda vida
+                <span>a tus objetos.</span>
+            </h1>
+
+            <p>
+                Publica objetos usados, encuentra lo que necesitas
+                y contacta directamente con otros usuarios.
+            </p>
+
+            <div class="hero-cta">
+
+                <a
+                    class="btn-solid"
+                    href="#catalogo">
+                    Ver objetos
+                </a>
+
+                <button
+                    type="button"
+                    class="btn-outline"
+                    id="openRegisterHero">
+                    Crear cuenta gratis
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FRANJA DE CONFIANZA
+    ====================================================== -->
+
+    <section class="trust-bar">
+
+        <div class="container trust-grid">
+
+            <div class="trust-item">
+
+                <span class="icon">♻️</span>
+
+                <div>
+                    <h4>Reutiliza</h4>
+                    <p>
+                        Dale una segunda oportunidad a tus objetos.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <span class="icon">🔒</span>
+
+                <div>
+                    <h4>Usuarios registrados</h4>
+                    <p>
+                        Contacta con usuarios del sistema.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <span class="icon">💬</span>
+
+                <div>
+                    <h4>Comunícate</h4>
+                    <p>
+                        Envía mensajes al publicador.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CATEGORÍAS
+    ====================================================== -->
+
+    <nav
+        class="categories container"
+        aria-label="Categorías">
+
+        <button
+            type="button"
+            class="tab active"
+            data-cat="todos">
+            Todos
+        </button>
+
+        <button
+            type="button"
+            class="tab"
+            data-cat="oficina">
+            Oficina
+        </button>
+
+        <button
+            type="button"
+            class="tab"
+            data-cat="escolar">
+            Escolar
+        </button>
+
+        <button
+            type="button"
+            class="tab"
+            data-cat="arte">
+            Arte
+        </button>
+
+        <button
+            type="button"
+            class="tab"
+            data-cat="tecnologia">
+            Tecnología
+        </button>
+
+    </nav>
+
+
+    <!-- =====================================================
+         CATÁLOGO
+    ====================================================== -->
+
+    <main
+        class="catalog container"
+        id="catalogo">
+
+        <div class="catalog-head">
+
+            <h2>
+                Objetos disponibles
+            </h2>
+
+            <span
+                class="count"
+                id="resultCount">
+                Objetos disponibles
+            </span>
+
+        </div>
+
+
+        <div
+            class="grid"
+            id="grid">
+
+
+            <!-- OBJETO 1 -->
+
+            <article
+                class="card"
+                data-cat="oficina">
+
+                <div class="card-img-placeholder">
+                    📎
+                </div>
+
+                <span class="tag tag-oficina">
+                    Oficina
+                </span>
+
+                <h3>
+                    Grapadora metálica
+                </h3>
+
+                <p class="desc">
+                    Grapadora usada en buen estado.
+                </p>
+
+                <div class="row">
+
+                    <span class="price">
+                        Disponible
+                    </span>
+
+                    <button
+                        type="button"
+                        class="add-btn">
+                        +
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- OBJETO 2 -->
+
+            <article
+                class="card"
+                data-cat="escolar">
+
+                <div class="card-img-placeholder">
+                    📓
+                </div>
+
+                <span class="tag tag-escolar">
+                    Escolar
+                </span>
+
+                <h3>
+                    Cuaderno
+                </h3>
+
+                <p class="desc">
+                    Cuaderno usado en buen estado.
+                </p>
+
+                <div class="row">
+
+                    <span class="price">
+                        Disponible
+                    </span>
+
+                    <button
+                        type="button"
+                        class="add-btn">
+                        +
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- OBJETO 3 -->
+
+            <article
+                class="card"
+                data-cat="arte">
+
+                <div class="card-img-placeholder">
+                    🎨
+                </div>
+
+                <span class="tag tag-arte">
+                    Arte
+                </span>
+
+                <h3>
+                    Material de pintura
+                </h3>
+
+                <p class="desc">
+                    Material usado para actividades artísticas.
+                </p>
+
+                <div class="row">
+
+                    <span class="price">
+                        Disponible
+                    </span>
+
+                    <button
+                        type="button"
+                        class="add-btn">
+                        +
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- OBJETO 4 -->
+
+            <article
+                class="card"
+                data-cat="tecnologia">
+
+                <div class="card-img-placeholder">
+                    🖱️
+                </div>
+
+                <span class="tag tag-tecnologia">
+                    Tecnología
+                </span>
+
+                <h3>
+                    Mouse inalámbrico
+                </h3>
+
+                <p class="desc">
+                    Mouse usado en buen estado.
+                </p>
+
+                <div class="row">
+
+                    <span class="price">
+                        Disponible
+                    </span>
+
+                    <button
+                        type="button"
+                        class="add-btn">
+                        +
+                    </button>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <div class="container footer-content">
+
+            <p>
+                <strong>EcoInsumos</strong>
+                — Plataforma para reutilizar y compartir objetos.
+            </p>
+
+            <p class="footer-note">
+                © 2026 EcoInsumos
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         MODAL LOGIN
+    ====================================================== -->
+
+    <div
+        class="overlay hidden"
+        id="loginOverlay">
+
+        <div class="modal">
+
+            <button
+                type="button"
+                class="close"
+                id="closeLogin"
+                aria-label="Cerrar">
+                ×
+            </button>
+
+
+            <h2>
+                Iniciar sesión
+            </h2>
+
+            <p class="sub">
+                Ingresa a tu cuenta de EcoInsumos.
+            </p>
+
+
+            <!-- MENSAJE LOGIN -->
+
+            <div
+                id="loginMessage"
+                class="modal-message hidden">
+            </div>
+
+
+            <form id="loginForm">
+
+                <label for="loginEmail">
+                    Correo electrónico
+                </label>
+
+                <input
+                    id="loginEmail"
+                    name="email"
+                    type="email"
+                    placeholder="tucorreo@ejemplo.com"
+                    required>
+
+
+                <label for="loginPass">
+                    Contraseña
+                </label>
+
+                <input
+                    id="loginPass"
+                    name="password"
+                    type="password"
+                    placeholder="••••••••"
+                    required>
+
+
+                <button
+                    class="submit-btn"
+                    type="submit">
+                    Entrar
+                </button>
+
+            </form>
+
+
+            <p class="switch">
+
+                ¿No tienes cuenta?
+
+                <button
+                    type="button"
+                    id="toRegister">
+                    Crear una
+                </button>
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MODAL REGISTRO
+    ====================================================== -->
+
+    <div
+        class="overlay hidden"
+        id="registerOverlay">
+
+        <div class="modal">
+
+            <button
+                type="button"
+                class="close"
+                id="closeRegister"
+                aria-label="Cerrar">
+                ×
+            </button>
+
+
+            <h2>
+                Crear cuenta
+            </h2>
+
+            <p class="sub">
+                Regístrate gratis en EcoInsumos.
+            </p>
+
+
+            <!-- MENSAJE REGISTRO -->
+
+            <div
+                id="registerMessage"
+                class="modal-message hidden">
+            </div>
+
+
+            <form id="registerForm">
+
+                <label for="regName">
+                    Nombre completo
+                </label>
+
+                <input
+                    id="regName"
+                    name="nombre"
+                    type="text"
+                    placeholder="Tu nombre"
+                    required>
+
+
+                <label for="regEmail">
+                    Correo electrónico
+                </label>
+
+                <input
+                    id="regEmail"
+                    name="email"
+                    type="email"
+                    placeholder="tucorreo@ejemplo.com"
+                    required>
+
+
+                <label for="regPass">
+                    Contraseña
+                </label>
+
+                <input
+                    id="regPass"
+                    name="password"
+                    type="password"
+                    placeholder="Mínimo 8 caracteres"
+                    required>
+
+
+                <button
+                    class="submit-btn"
+                    type="submit">
+                    Crear cuenta
+                </button>
+
+            </form>
+
+
+            <p class="switch">
+
+                ¿Ya tienes cuenta?
+
+                <button
+                    type="button"
+                    id="toLogin">
+                    Iniciar sesión
+                </button>
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        /* =====================================================
+           ELEMENTOS
+        ====================================================== */
+
+        const loginOverlay =
+            document.getElementById("loginOverlay");
+
+        const registerOverlay =
+            document.getElementById("registerOverlay");
+
+        const openLogin =
+            document.getElementById("openLogin");
+
+        const openRegister =
+            document.getElementById("openRegister");
+
+        const openRegisterHero =
+            document.getElementById("openRegisterHero");
+
+        const closeLogin =
+            document.getElementById("closeLogin");
+
+        const closeRegister =
+            document.getElementById("closeRegister");
+
+        const toRegister =
+            document.getElementById("toRegister");
+
+        const toLogin =
+            document.getElementById("toLogin");
+
+
+        /* =====================================================
+           ABRIR LOGIN
+        ====================================================== */
+
+        openLogin.addEventListener("click", function () {
+
+            loginOverlay.classList.remove("hidden");
+
+        });
+
+
+        /* =====================================================
+           ABRIR REGISTRO
+        ====================================================== */
+
+        openRegister.addEventListener("click", function () {
+
+            registerOverlay.classList.remove("hidden");
+
+        });
+
+
+        openRegisterHero.addEventListener("click", function () {
+
+            registerOverlay.classList.remove("hidden");
+
+        });
+
+
+        /* =====================================================
+           CERRAR LOGIN
+        ====================================================== */
+
+        closeLogin.addEventListener("click", function () {
+
+            loginOverlay.classList.add("hidden");
+
+        });
+
+
+        /* =====================================================
+           CERRAR REGISTRO
+        ====================================================== */
+
+        closeRegister.addEventListener("click", function () {
+
+            registerOverlay.classList.add("hidden");
+
+        });
+
+
+        /* =====================================================
+           LOGIN → REGISTRO
+        ====================================================== */
+
+        toRegister.addEventListener("click", function () {
+
+            loginOverlay.classList.add("hidden");
+
+            registerOverlay.classList.remove("hidden");
+
+        });
+
+
+        /* =====================================================
+           REGISTRO → LOGIN
+        ====================================================== */
+
+        toLogin.addEventListener("click", function () {
+
+            registerOverlay.classList.add("hidden");
+
+            loginOverlay.classList.remove("hidden");
+
+        });
+
+
+        /* =====================================================
+           CERRAR AL HACER CLICK FUERA
+        ====================================================== */
+
+        loginOverlay.addEventListener("click", function (event) {
+
+            if (event.target === loginOverlay) {
+
+                loginOverlay.classList.add("hidden");
+
+            }
+
+        });
+
+
+        registerOverlay.addEventListener("click", function (event) {
+
+            if (event.target === registerOverlay) {
+
+                registerOverlay.classList.add("hidden");
+
+            }
+
+        });
+
+
+
+        /* =====================================================
+           REGISTRO
+        ====================================================== */
+
+        const registerForm =
+            document.getElementById("registerForm");
+
+        const registerMessage =
+            document.getElementById("registerMessage");
+
+
+        registerForm.addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+
+            const formData =
+                new FormData(registerForm);
+
+
+            registerMessage.classList.remove("hidden");
+
+            registerMessage.textContent =
+                "Registrando usuario...";
+
+
+            try {
+
+                const response = await fetch(
+                    "/auth/registro",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    registerMessage.textContent =
+                        data.detail ||
+                        "No se pudo registrar el usuario.";
+
+                    return;
+
+                }
+
+
+                registerMessage.textContent =
+                    data.mensaje;
+
+
+                registerForm.reset();
+
+
+                /*
+                 * Después de registrarse correctamente
+                 * mostramos el login.
+                 */
+
+                setTimeout(function () {
+
+                    registerOverlay.classList.add("hidden");
+
+                    loginOverlay.classList.remove("hidden");
+
+                    registerMessage.classList.add("hidden");
+
+                }, 1500);
+
+
+            } catch (error) {
+
+                registerMessage.textContent =
+                    "Error de conexión con el servidor.";
+
+            }
+
+        });
+
+
+
+        /* =====================================================
+           LOGIN
+        ====================================================== */
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const loginMessage =
+            document.getElementById("loginMessage");
+
+
+        loginForm.addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+
+            const formData =
+                new FormData(loginForm);
+
+
+            loginMessage.classList.remove("hidden");
+
+            loginMessage.textContent =
+                "Iniciando sesión...";
+
+
+            try {
+
+                const response = await fetch(
+                    "/auth/login",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    loginMessage.textContent =
+                        data.detail ||
+                        "Correo o contraseña incorrectos.";
+
+                    return;
+
+                }
+
+
+                /*
+                 * Guardamos la información del usuario.
+                 */
+
+                sessionStorage.setItem(
+                    "usuario",
+                    data.usuario
+                );
+
+                sessionStorage.setItem(
+                    "rol",
+                    data.rol
+                );
+
+
+                /*
+                 * REDIRECCIÓN SEGÚN EL BACKEND
+                 */
+
+                window.location.href =
+                    data.redirect_url ||
+                    (data.rol === "admin" ? "/admin" : "/usuario");
+
+            } catch (error) {
+
+                loginMessage.textContent =
+                    "Error de conexión con el servidor.";
+
+            }
+
+        });
+
+
+
+        /* =====================================================
+           FILTROS
+        ====================================================== */
+
+        const tabs =
+            document.querySelectorAll(".tab");
+
+        const cards =
+            document.querySelectorAll(".card");
+
+        const resultCount =
+            document.getElementById("resultCount");
+
+
+        tabs.forEach(function (tab) {
+
+            tab.addEventListener("click", function () {
+
+                const categoria =
+                    tab.dataset.cat;
+
+
+                tabs.forEach(function (item) {
+
+                    item.classList.remove("active");
+
+                });
+
+
+                tab.classList.add("active");
+
+
+                let cantidad = 0;
+
+
+                cards.forEach(function (card) {
+
+                    if (
+                        categoria === "todos" ||
+                        card.dataset.cat === categoria
+                    ) {
+
+                        card.style.display = "";
+
+                        cantidad++;
+
+                    } else {
+
+                        card.style.display = "none";
+
+                    }
+
+                });
+
+
+                resultCount.textContent =
+                    cantidad + " objetos disponibles";
+
+            });
+
+        });
+
+
+
+        /* =====================================================
+           BUSCADOR
+        ====================================================== */
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                const texto =
+                    searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+
+                let cantidad = 0;
+
+
+                cards.forEach(function (card) {
+
+                    const contenido =
+                        card.textContent.toLowerCase();
+
+
+                    if (
+                        contenido.includes(texto)
+                    ) {
+
+                        card.style.display = "";
+
+                        cantidad++;
+
+                    } else {
+
+                        card.style.display = "none";
+
+                    }
+
+                });
+
+
+                resultCount.textContent =
+                    cantidad + " objetos encontrados";
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
