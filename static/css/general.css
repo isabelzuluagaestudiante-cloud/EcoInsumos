@@ -653,3 +653,36 @@ a:hover {
         font-size: 28px;
    }
 }
+
+/* =========================================================
+   ÍCONOS DE CATEGORÍAS Y CARRITO
+   ========================================================= */
+
+   .nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-icons a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--text-color);
+    text-decoration: none;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.nav-icons a:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.nav-icons i {
+    font-size: 20px;
+}
