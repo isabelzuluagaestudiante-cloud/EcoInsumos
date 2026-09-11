@@ -50,6 +50,14 @@
                     Inicio
                 </a>
 
+                <a href="/categorias">
+                    📂 Categorías
+                </a>
+
+                <a href="/carrito">
+                    🛒 Carrito
+                </a>
+
                 <a href="/usuario/objetos">
                     Objetos disponibles
                 </a>
@@ -132,6 +140,50 @@
                 </h2>
 
             </div>
+
+
+            {% if mis_objetos %}
+                <div class="catalog-head" style="margin-top: 25px;">
+                    <h3>Mis objetos publicados</h3>
+                </div>
+
+                <div class="grid">
+                    {% for objeto in mis_objetos %}
+                        <article class="card">
+                            {% if objeto.imagen_url %}
+                                <img src="{{ objeto.imagen_url }}" alt="{{ objeto.nombre }}" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                            {% else %}
+                                <div class="card-img-placeholder">
+                                    📦
+                                </div>
+                            {% endif %}
+
+                            <h3>
+                                {{ objeto.nombre }}
+                            </h3>
+
+                            <p class="desc">
+                                {{ objeto.descripcion }}
+                            </p>
+
+                            <div class="row">
+                                <span class="price">
+                                    {% if objeto.tipo_publicacion == 'gratis' %}
+                                        Gratis
+                                    {% elif objeto.tipo_publicacion == 'intercambio' %}
+                                        Intercambio
+                                    {% else %}
+                                        ${{ objeto.precio }}
+                                    {% endif %}
+                                </span>
+                                <span class="tag">
+                                    {{ objeto.estado }}
+                                </span>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
 
             <div class="grid">

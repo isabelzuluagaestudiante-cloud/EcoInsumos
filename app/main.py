@@ -6,11 +6,12 @@ from starlette.middleware.sessions import SessionMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app.database.database import Base, engine
+from app.database.database import Base, engine, SessionLocal
 from app.models.categoria import Categoria
 from app.models.productos import Producto
 from app.models.carrito import Carrito
 from app.models.usuario import Usuario
+from app.models.mensaje import Mensaje
 from app.controllers.auth_controller import router as auth_router
 from app.controllers.usuario_controller import router as usuario_router
 from app.controllers.admin_controller import router as admin_router
@@ -20,6 +21,17 @@ from app.controllers.carrito_controller import router as carrito_router
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 Base.metadata.create_all(bind=engine)
+
+with SessionLocal() as db:
+    if db.query(Categoria).count() == 0:
+        categorias_default = [
+            Categoria(nombre="Escritorio", descripcion="Artículos para escritorio y oficina."),
+            Categoria(nombre="Escolar", descripcion="Útiles y materiales escolares."),
+            Categoria(nombre="Electrónica", descripcion="Dispositivos y accesorios electrónicos."),
+            Categoria(nombre="Muebles", descripcion="Muebles y artículos del hogar."),
+        ]
+        db.add_all(categorias_default)
+        db.commit()
 
 app = FastAPI(title="EcoInsumos - MVC")
 

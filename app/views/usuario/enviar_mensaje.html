@@ -41,6 +41,59 @@
 
         </a>
 
+        <button class="hamburger" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+            <span></span>
+        </button>
+
+        <div class="topbar-nav">
+
+            <nav class="nav-links">
+
+                <a href="/usuario">
+                    Inicio
+                </a>
+
+                <a href="/categorias">
+                    📂 Categorías
+                </a>
+
+                <a href="/carrito">
+                    🛒 Carrito
+                </a>
+
+                <a href="/usuario/objetos">
+                    Objetos disponibles
+                </a>
+
+                <a href="/usuario/publicar">
+                    Publicar objeto
+                </a>
+
+                <a href="/usuario/mensajes">
+                    Mensajes
+                </a>
+
+            </nav>
+
+            <div class="auth-buttons">
+                <div class="user-chip">
+                    <span class="user-icon">
+                        👤
+                    </span>
+                    <span class="user-name">
+                        {{ nombre|default('Usuario') }}
+                    </span>
+                </div>
+
+                <a
+                    href="/auth/logout"
+                    class="stamp-btn">
+                    Cerrar sesión
+                </a>
+            </div>
+
+        </div>
+
     </div>
 
 </header>

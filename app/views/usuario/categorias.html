@@ -2,16 +2,150 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categorías</title>
+    <link rel="stylesheet" href="/static/css/general.css">
+    <style>
+        body { padding: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .category-section { background: white; margin: 20px 0; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .category-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .category-title { font-size: 24px; font-weight: bold; margin: 0; color: #333; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; }
+        .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 10px; background: #fafafa; }
+        .product-image { width: 100%; height: 170px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
+        .product-fallback { width: 100%; height: 170px; display:flex; align-items:center; justify-content:center; background:#e8f5e9; color:#27ae60; border-radius:8px; margin-bottom:12px; font-size: 34px; }
+        .product-name { font-weight: bold; font-size: 16px; margin-bottom: 8px; }
+        .product-desc { color: #666; font-size: 14px; margin-bottom: 10px; }
+        .product-price { color: #27ae60; font-weight: bold; font-size: 18px; }
+        .btn-back { background: #333; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-back:hover { background: #555; }
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+        .filter-pill { display: inline-block; background: #fff; padding: 8px 14px; border-radius: 999px; border: 1px solid #cfe3d1; color: #1f5f3d; text-decoration: none; font-weight: 600; }
+        .filter-pill.active { background: #2e7d32; color: white; border-color: #2e7d32; }
+        .product-actions { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-solid { padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: 600; }
+    </style>
 </head>
 <body>
-    <h1>Categorías</h1>
+    <div class="container">
+        <a href="/" class="btn-back">← Volver al inicio</a>
 
-    {% for categoria in categorias %}
-        <div>
-            <h3>{{ categoria.nombre }}</h3>
-            <p>{{ categoria.descripcion }}</p>
+        <h1>Categorías</h1>
+
+        <div class="filter-bar">
+            <a href="/categorias" class="filter-pill {% if not categoria_seleccionada %}active{% endif %}">Todas</a>
+            {% for categoria in categorias %}
+                <a href="/categorias?categoria_id={{ categoria.id }}" class="filter-pill {% if categoria_seleccionada and categoria_seleccionada.id == categoria.id %}active{% endif %}">{{ categoria.nombre }}</a>
+            {% endfor %}
         </div>
-    {% endfor %}
+
+        {% if categoria_seleccionada %}
+            <div class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">📂 {{ categoria_seleccionada.nombre }}</h2>
+                    <a href="/categorias" class="filter-pill">Ver todas</a>
+                </div>
+
+                {% if productos %}
+                    <div class="products-grid">
+                        {% for producto in productos %}
+                            <div class="product-card">
+                                {% if producto.imagen_url %}
+                                    <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}" class="product-image">
+                                {% else %}
+                                    <div class="product-fallback">📦</div>
+                                {% endif %}
+                                <div class="product-name">{{ producto.nombre }}</div>
+                                <div class="product-desc">{{ producto.descripcion }}</div>
+                                <div class="product-price">
+                                    {% if producto.tipo_publicacion == 'gratis' %}
+                                        Gratis
+                                    {% elif producto.tipo_publicacion == 'intercambio' %}
+                                        Intercambio
+                                    {% else %}
+                                        ${{ producto.precio }}
+                                    {% endif %}
+                                </div>
+                                {% if usuario_actual_id and producto.usuario_id != usuario_actual_id %}
+                                    <div class="product-actions">
+                                        <form action="/carrito/agregar/{{ producto.id }}" method="post" style="display:inline;">
+                                            <button type="submit" class="btn-solid" style="background:#27ae60;color:white;border:none;cursor:pointer;">🛒 Agregar al carrito</button>
+                                        </form>
+                                        <a href="/usuario/mensaje/{{ producto.id }}" class="btn-solid" style="background:#2c3e50;color:white;">✉️ Enviar mensaje</a>
+                                    </div>
+                                {% elif not usuario_actual_id %}
+                                    <div class="product-actions">
+                                        <a href="/" class="btn-solid" style="background:#2c3e50;color:white;">Inicia sesión</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p style="color: #999;">No hay productos disponibles en esta categoría.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            {% if categorias %}
+                {% for categoria in categorias %}
+                    <div class="category-section">
+                        <div class="category-header">
+                            <h2 class="category-title">📂 {{ categoria.nombre }}</h2>
+                            <a href="/categorias?categoria_id={{ categoria.id }}" class="filter-pill">Ver categoría</a>
+                        </div>
+
+                        {% set productos_categoria = [] %}
+                        {% for producto in categoria.productos %}
+                            {% if not usuario_actual_id or producto.usuario_id != usuario_actual_id %}
+                                {% set productos_categoria = productos_categoria + [producto] %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if productos_categoria %}
+                            <div class="products-grid">
+                                {% for producto in productos_categoria %}
+                                    <div class="product-card">
+                                        {% if producto.imagen_url %}
+                                            <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}" class="product-image">
+                                        {% else %}
+                                            <div class="product-fallback">📦</div>
+                                        {% endif %}
+                                        <div class="product-name">{{ producto.nombre }}</div>
+                                        <div class="product-desc">{{ producto.descripcion }}</div>
+                                        <div class="product-price">
+                                            {% if producto.tipo_publicacion == 'gratis' %}
+                                                Gratis
+                                            {% elif producto.tipo_publicacion == 'intercambio' %}
+                                                Intercambio
+                                            {% else %}
+                                                ${{ producto.precio }}
+                                            {% endif %}
+                                        </div>
+                                        {% if usuario_actual_id and producto.usuario_id != usuario_actual_id %}
+                                            <div class="product-actions">
+                                                <form action="/carrito/agregar/{{ producto.id }}" method="post" style="display:inline;">
+                                                    <button type="submit" class="btn-solid" style="background:#27ae60;color:white;border:none;cursor:pointer;">🛒 Agregar al carrito</button>
+                                                </form>
+                                                <a href="/usuario/mensaje/{{ producto.id }}" class="btn-solid" style="background:#2c3e50;color:white;">✉️ Enviar mensaje</a>
+                                            </div>
+                                        {% elif not usuario_actual_id %}
+                                            <div class="product-actions">
+                                                <a href="/" class="btn-solid" style="background:#2c3e50;color:white;">Inicia sesión</a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p style="color: #999;">No hay productos disponibles en esta categoría.</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center; color: #999;">No hay categorías disponibles.</p>
+            {% endif %}
+        {% endif %}
+    </div>
 </body>
 </html>

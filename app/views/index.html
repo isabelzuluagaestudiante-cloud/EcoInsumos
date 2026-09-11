@@ -49,6 +49,11 @@
 
             </div>
 
+            <div class="nav-links">
+                <a href="/categorias" class="stamp-btn">📂 Categorías</a>
+                <a href="/carrito" class="stamp-btn">🛒 Carrito</a>
+            </div>
+
             <div class="auth-buttons">
 
                 <!-- LOGIN -->
@@ -484,6 +489,9 @@
                     name="email"
                     type="email"
                     placeholder="tucorreo@ejemplo.com"
+                    autocomplete="username"
+                    autocapitalize="none"
+                    spellcheck="false"
                     required>
 
 
@@ -496,6 +504,7 @@
                     name="password"
                     type="password"
                     placeholder="••••••••"
+                    autocomplete="current-password"
                     required>
 
 
@@ -573,6 +582,8 @@
                     name="nombre"
                     type="text"
                     placeholder="Tu nombre"
+                    autocomplete="name"
+                    autocapitalize="words"
                     required>
 
 
@@ -585,6 +596,9 @@
                     name="email"
                     type="email"
                     placeholder="tucorreo@ejemplo.com"
+                    autocomplete="username"
+                    autocapitalize="none"
+                    spellcheck="false"
                     required>
 
 
@@ -597,6 +611,7 @@
                     name="password"
                     type="password"
                     placeholder="Mínimo 8 caracteres"
+                    autocomplete="new-password"
                     required>
 
 
@@ -664,6 +679,22 @@
         const toLogin =
             document.getElementById("toLogin");
 
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const registerForm =
+            document.getElementById("registerForm");
+
+        function limpiarFormulariosAuth() {
+            if (loginForm) {
+                loginForm.reset();
+            }
+
+            if (registerForm) {
+                registerForm.reset();
+            }
+        }
+
 
         /* =====================================================
            ABRIR LOGIN
@@ -672,6 +703,7 @@
         openLogin.addEventListener("click", function () {
 
             loginOverlay.classList.remove("hidden");
+            limpiarFormulariosAuth();
 
         });
 
@@ -683,6 +715,7 @@
         openRegister.addEventListener("click", function () {
 
             registerOverlay.classList.remove("hidden");
+            limpiarFormulariosAuth();
 
         });
 
@@ -690,6 +723,7 @@
         openRegisterHero.addEventListener("click", function () {
 
             registerOverlay.classList.remove("hidden");
+            limpiarFormulariosAuth();
 
         });
 
@@ -701,6 +735,7 @@
         closeLogin.addEventListener("click", function () {
 
             loginOverlay.classList.add("hidden");
+            limpiarFormulariosAuth();
 
         });
 
@@ -712,6 +747,7 @@
         closeRegister.addEventListener("click", function () {
 
             registerOverlay.classList.add("hidden");
+            limpiarFormulariosAuth();
 
         });
 
@@ -723,8 +759,8 @@
         toRegister.addEventListener("click", function () {
 
             loginOverlay.classList.add("hidden");
-
             registerOverlay.classList.remove("hidden");
+            limpiarFormulariosAuth();
 
         });
 
@@ -736,8 +772,8 @@
         toLogin.addEventListener("click", function () {
 
             registerOverlay.classList.add("hidden");
-
             loginOverlay.classList.remove("hidden");
+            limpiarFormulariosAuth();
 
         });
 
@@ -751,6 +787,7 @@
             if (event.target === loginOverlay) {
 
                 loginOverlay.classList.add("hidden");
+                limpiarFormulariosAuth();
 
             }
 
@@ -762,6 +799,7 @@
             if (event.target === registerOverlay) {
 
                 registerOverlay.classList.add("hidden");
+                limpiarFormulariosAuth();
 
             }
 
@@ -772,9 +810,6 @@
         /* =====================================================
            REGISTRO
         ====================================================== */
-
-        const registerForm =
-            document.getElementById("registerForm");
 
         const registerMessage =
             document.getElementById("registerMessage");
@@ -858,9 +893,6 @@
         /* =====================================================
            LOGIN
         ====================================================== */
-
-        const loginForm =
-            document.getElementById("loginForm");
 
         const loginMessage =
             document.getElementById("loginMessage");

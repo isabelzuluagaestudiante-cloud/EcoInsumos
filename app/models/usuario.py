@@ -13,3 +13,6 @@ class Usuario(Base):
     activo = Column(Boolean, default=True)
 
     carritos = relationship("Carrito", back_populates="usuario")
+    productos = relationship("Producto", back_populates="usuario")
+    mensajes_enviados = relationship("Mensaje", foreign_keys="Mensaje.remitente_id", back_populates="remitente")
+    mensajes_recibidos = relationship("Mensaje", foreign_keys="Mensaje.destinatario_id", back_populates="destinatario")

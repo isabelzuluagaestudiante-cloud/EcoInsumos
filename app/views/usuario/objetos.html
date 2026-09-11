@@ -54,6 +54,14 @@
                     Inicio
                 </a>
 
+                <a href="/categorias">
+                    📂 Categorías
+                </a>
+
+                <a href="/carrito">
+                    🛒 Carrito
+                </a>
+
                 <a
                     href="/usuario/objetos"
                     class="active">
@@ -111,8 +119,86 @@
                 Explora los objetos publicados por otros usuarios.
             </p>
 
+            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;">
+                <a href="/usuario/objetos" class="stamp-btn" style="padding:8px 14px; {% if not categoria_id_seleccionada %}background:#2e7d32; color:white;{% endif %}">
+                    Todos
+                </a>
+                {% for categoria in categorias %}
+                    <a href="/usuario/objetos?categoria_id={{ categoria.id }}" class="stamp-btn" style="padding:8px 14px; {% if categoria_id_seleccionada == categoria.id %}background:#2e7d32; color:white;{% endif %}">
+                        {{ categoria.nombre }}
+                    </a>
+                {% endfor %}
+            </div>
+
         </div>
 
+    </div>
+
+
+    {% if mis_objetos %}
+        <div class="catalog-head" style="margin-top: 30px;">
+            <div>
+                <h2>Mis objetos publicados</h2>
+            </div>
+        </div>
+
+        <div class="grid">
+            {% for objeto in mis_objetos %}
+                <article class="card">
+                    {% if objeto.imagen_url %}
+                        <img src="{{ objeto.imagen_url }}" alt="{{ objeto.nombre }}" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                    {% else %}
+                        <div class="card-img-placeholder">
+                            📦
+                        </div>
+                    {% endif %}
+
+                    <span class="tag tag-{{ objeto.categoria.nombre.lower() if objeto.categoria else 'general' }}">
+                        {{ objeto.categoria.nombre if objeto.categoria else 'Sin categoría' }}
+                    </span>
+
+                    <h3>
+                        {{ objeto.nombre }}
+                    </h3>
+
+                    <p class="desc">
+                        {{ objeto.descripcion }}
+                    </p>
+
+                    <div class="row">
+                        <span class="price">
+                            {% if objeto.tipo_publicacion == 'gratis' %}
+                                Gratis
+                            {% elif objeto.tipo_publicacion == 'intercambio' %}
+                                Intercambio
+                            {% else %}
+                                ${{ objeto.precio }}
+                            {% endif %}
+                        </span>
+
+                        {% if objeto.usuario_id != usuario_actual_id %}
+                            <div style="display:flex; gap:8px; align-items:center;">
+                                <form action="/carrito/agregar/{{ objeto.id }}" method="post">
+                                    <button type="submit" class="btn-solid">
+                                        Agregar al carrito
+                                    </button>
+                                </form>
+                                <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid" style="background:#2c3e50;">
+                                    Enviar mensaje
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <div class="catalog-head" style="margin-top: 30px;">
+        <div>
+            <h2>Objetos de otras cuentas</h2>
+        </div>
     </div>
 
 
@@ -122,12 +208,16 @@
 
             <article class="card">
 
-                <div class="card-img-placeholder">
-                    {{ objeto.icono }}
-                </div>
+                {% if objeto.imagen_url %}
+                    <img src="{{ objeto.imagen_url }}" alt="{{ objeto.nombre }}" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                {% else %}
+                    <div class="card-img-placeholder">
+                        🧰
+                    </div>
+                {% endif %}
 
-                <span class="tag tag-{{ objeto.categoria }}">
-                    {{ objeto.categoria }}
+                <span class="tag tag-{{ objeto.categoria.nombre.lower() if objeto.categoria else 'general' }}">
+                    {{ objeto.categoria.nombre if objeto.categoria else 'Sin categoría' }}
                 </span>
 
                 <h3>
@@ -140,14 +230,25 @@
 
                 <div class="row">
                     <span class="price">
-                        {{ objeto.estado }}
+                        {% if objeto.tipo_publicacion == 'gratis' %}
+                            Gratis
+                        {% elif objeto.tipo_publicacion == 'intercambio' %}
+                            Intercambio
+                        {% else %}
+                            ${{ objeto.precio }}
+                        {% endif %}
                     </span>
 
-                    <a
-                        href="/usuario/mensajes"
-                        class="btn-solid">
-                        Consultar
-                    </a>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <form action="/carrito/agregar/{{ objeto.id }}" method="post">
+                            <button type="submit" class="btn-solid">
+                                Agregar al carrito
+                            </button>
+                        </form>
+                        <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid" style="background:#2c3e50;">
+                            Enviar mensaje
+                        </a>
+                    </div>
                 </div>
 
             </article>
