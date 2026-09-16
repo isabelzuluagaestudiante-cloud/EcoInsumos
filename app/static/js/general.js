@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const openLogin = document.getElementById("openLogin");
     const openRegister = document.getElementById("openRegister");
     const openRegister2 = document.getElementById("openRegister2");
+    const openCartLogin = document.getElementById("openCartLogin");
 
     const closeLogin = document.getElementById("closeLogin");
     const closeRegister = document.getElementById("closeRegister");
@@ -487,6 +488,24 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (hb) hb.setAttribute('aria-expanded', 'false');
                 });
             });
+
+        });
+
+    }
+
+    // ======================================
+    // ABRIR LOGIN DESDE CARRITO
+    // ======================================
+
+    if (openCartLogin) {
+
+        openCartLogin.addEventListener("click", function () {
+
+            if (loginOverlay) {
+                loginOverlay.classList.remove("hidden");
+                registerOverlay.classList.add("hidden");
+                limpiarMensaje(loginMessage);
+            }
 
         });
 

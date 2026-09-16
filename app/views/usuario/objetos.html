@@ -55,11 +55,11 @@
                 </a>
 
                 <a href="/categorias">
-                    📂 Categorías
+                     Categorías
                 </a>
 
                 <a href="/carrito">
-                    🛒 Carrito
+                     Carrito
                 </a>
 
                 <a
@@ -80,21 +80,25 @@
 
 
             <div class="auth-buttons">
-
-                <div class="user-chip">
-                    <span class="user-icon">
-                        👤
-                    </span>
-                    <span class="user-name">
-                        {{ nombre }}
-                    </span>
+                <div class="user-menu-wrapper">
+                    <details class="user-menu">
+                        <summary class="user-chip">
+                            <span class="user-icon">
+                                👤
+                            </span>
+                            <span class="user-name">
+                                {{ nombre }}
+                            </span>
+                        </summary>
+                        <div class="user-menu-panel">
+                            <a href="/usuario/cambiar-password" class="user-menu-item">Cambiar contraseña</a>
+                            <form action="/usuario/eliminar-cuenta" method="post" class="user-menu-form" onsubmit="return confirm('¿Seguro que deseas eliminar tu cuenta?');">
+                                <button type="submit" class="user-menu-item danger">Eliminar cuenta</button>
+                            </form>
+                            <a href="/auth/logout" class="user-menu-item">Cerrar sesión</a>
+                        </div>
+                    </details>
                 </div>
-
-                <a
-                    href="/auth/logout"
-                    class="stamp-btn">
-                    Cerrar sesión
-                </a>
 
             </div>
 
@@ -120,11 +124,11 @@
             </p>
 
             <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;">
-                <a href="/usuario/objetos" class="stamp-btn" style="padding:8px 14px; {% if not categoria_id_seleccionada %}background:#2e7d32; color:white;{% endif %}">
+                <a href="/usuario/objetos" class="stamp-btn{% if not categoria_id_seleccionada %} active{% endif %}" style="padding:8px 14px;">
                     Todos
                 </a>
                 {% for categoria in categorias %}
-                    <a href="/usuario/objetos?categoria_id={{ categoria.id }}" class="stamp-btn" style="padding:8px 14px; {% if categoria_id_seleccionada == categoria.id %}background:#2e7d32; color:white;{% endif %}">
+                    <a href="/usuario/objetos?categoria_id={{ categoria.id }}" class="stamp-btn{% if categoria_id_seleccionada == categoria.id %} active{% endif %}" style="padding:8px 14px;">
                         {{ categoria.nombre }}
                     </a>
                 {% endfor %}
@@ -149,7 +153,7 @@
                         <img src="{{ objeto.imagen_url }}" alt="{{ objeto.nombre }}" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:12px;">
                     {% else %}
                         <div class="card-img-placeholder">
-                            📦
+                            
                         </div>
                     {% endif %}
 
@@ -177,13 +181,13 @@
                         </span>
 
                         {% if objeto.usuario_id != usuario_actual_id %}
-                            <div style="display:flex; gap:8px; align-items:center;">
+                            <div style="display:flex; gap:8px; align-items:center; justify-content:center; flex-wrap:wrap;">
                                 <form action="/carrito/agregar/{{ objeto.id }}" method="post">
-                                    <button type="submit" class="btn-solid">
+                                    <button type="submit" class="btn-solid mini-action">
                                         Agregar al carrito
                                     </button>
                                 </form>
-                                <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid" style="background:#2c3e50;">
+                                <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid mini-action secondary">
                                     Enviar mensaje
                                 </a>
                             </div>
@@ -212,7 +216,7 @@
                     <img src="{{ objeto.imagen_url }}" alt="{{ objeto.nombre }}" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:12px;">
                 {% else %}
                     <div class="card-img-placeholder">
-                        🧰
+                        
                     </div>
                 {% endif %}
 
@@ -239,13 +243,13 @@
                         {% endif %}
                     </span>
 
-                    <div style="display:flex; gap:8px; align-items:center;">
+                    <div style="display:flex; gap:8px; align-items:center; justify-content:center; flex-wrap:wrap;">
                         <form action="/carrito/agregar/{{ objeto.id }}" method="post">
-                            <button type="submit" class="btn-solid">
+                            <button type="submit" class="btn-solid mini-action">
                                 Agregar al carrito
                             </button>
                         </form>
-                        <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid" style="background:#2c3e50;">
+                        <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid mini-action secondary">
                             Enviar mensaje
                         </a>
                     </div>

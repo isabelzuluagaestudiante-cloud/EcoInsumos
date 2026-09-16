@@ -5,9 +5,11 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 
 from app.database.database import get_db
+from app.models.carrito import Carrito
 from app.models.categoria import Categoria
 from app.models.mensaje import Mensaje
 from app.models.productos import Producto
+from app.models.usuario import Usuario
 
 
 router = APIRouter(
@@ -15,10 +17,10 @@ router = APIRouter(
     tags=["Usuario"]
 )
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-UPLOAD_DIR = BASE_DIR / "app" / "static" / "img" / "productos"
+APP_DIR = Path(__file__).resolve().parents[1]
+UPLOAD_DIR = APP_DIR / "static" / "img" / "productos"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-templates = Jinja2Templates(directory=str(BASE_DIR / "views"))
+templates = Jinja2Templates(directory=str(APP_DIR / "views"))
 
 
 def _usuario_autenticado(request: Request) -> bool:
@@ -317,3 +319,188 @@ def listar_mensajes(request: Request, db: Session = Depends(get_db)):
         name="usuario/mensajes.html",
         context=_contexto_usuario(request, mensajes=mensajes),
     )
+
+
+@router.get("/configuracion")
+def mostrar_configuracion(request: Request, db: Session = Depends(get_db)):
+    respuesta = _redirigir_si_no_hay_sesion(request)
+
+    if respuesta:
+        return respuesta
+
+    return templates.TemplateResponse(
+        request=request,
+        name="usuario/configuracion.html",
+        context=_contexto_usuario(request),
+    )
+
+
+@router.post("/cambiar_contrasena")
+def cambiar_contrasena(
+    request: Request,
+    nueva_contrasena: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    respuesta = _redirigir_si_no_hay_sesion(request)
+
+    if respuesta:
+        return respuesta
+
+    usuario_id = request.session.get("usuario_id")
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+
+    if not usuario:
+        return RedirectResponse(url="/usuario/configuracion", status_code=303)
+
+    nueva_contrasena = nueva_contrasena.strip()
+    if not nueva_contrasena:
+        return templates.TemplateResponse(
+            request=request,
+            name="usuario/configuracion.html",
+            context=_contexto_usuario(request, error="La nueva contraseña no puede estar vacía."),
+            status_code=400,
+        )
+
+    usuario.contrasena = nueva_contrasena
+    db.commit()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="usuario/configuracion.html",
+        context=_contexto_usuario(request, mensaje="Contraseña cambiada exitosamente."),
+    )
+
+
+@router.post("/eliminar_cuenta")
+def eliminar_cuenta(request: Request, db: Session = Depends(get_db)):
+    respuesta = _redirigir_si_no_hay_sesion(request)
+
+    if respuesta:
+        return respuesta
+
+    usuario_id = request.session.get("usuario_id")
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+
+    if not usuario:
+        return RedirectResponse(url="/", status_code=303)
+
+    # Eliminar objetos relacionados (productos, mensajes, etc.)
+    db.query(Producto).filter(Producto.usuario_id == usuario_id).delete()
+    db.query(Mensaje).filter(
+        (Mensaje.remitente_id == usuario_id) | (Mensaje.destinatario_id == usuario_id)
+    ).delete()
+    db.query(Carrito).filter(Carrito.usuario_id == usuario_id).delete()
+
+    db.delete(usuario)
+    db.commit()
+
+    request.session.clear()  # Limpiar la sesión del usuario
+
+    return RedirectResponse(url="/", status_code=303)
+
+
+@router.post("/cerrar_sesion")
+def cerrar_sesion(request: Request):
+    request.session.clear()
+    return RedirectResponse(url="/", status_code=303)
+
+
+@router.get("/cambiar-password")
+def mostrar_cambiar_password(request: Request):
+    respuesta = _redirigir_si_no_hay_sesion(request)
+    if respuesta:
+        return respuesta
+
+    return templates.TemplateResponse(
+        request=request,
+        name="usuario/perfil.html",
+        context=_contexto_usuario(request),
+    )
+
+
+@router.post("/cambiar-password")
+def cambiar_password(
+    request: Request,
+    current_password: str = Form(...),
+    new_password: str = Form(...),
+    confirm_password: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    respuesta = _redirigir_si_no_hay_sesion(request)
+    if respuesta:
+        return respuesta
+
+    usuario = db.query(Usuario).filter(Usuario.id == request.session.get("usuario_id")).first()
+    if not usuario:
+        return RedirectResponse(url="/", status_code=303)
+
+    current_password = current_password.strip()
+    new_password = new_password.strip()
+    confirm_password = confirm_password.strip()
+
+    if not current_password or not new_password or not confirm_password:
+        return templates.TemplateResponse(
+            request=request,
+            name="usuario/perfil.html",
+            context=_contexto_usuario(request, error="Completa todos los campos para cambiar la contraseña."),
+            status_code=400,
+        )
+
+    if usuario.password != current_password:
+        return templates.TemplateResponse(
+            request=request,
+            name="usuario/perfil.html",
+            context=_contexto_usuario(request, error="La contraseña actual no es correcta."),
+            status_code=400,
+        )
+
+    if len(new_password) < 6:
+        return templates.TemplateResponse(
+            request=request,
+            name="usuario/perfil.html",
+            context=_contexto_usuario(request, error="La nueva contraseña debe tener al menos 6 caracteres."),
+            status_code=400,
+        )
+
+    if new_password != confirm_password:
+        return templates.TemplateResponse(
+            request=request,
+            name="usuario/perfil.html",
+            context=_contexto_usuario(request, error="La nueva contraseña y la confirmación no coinciden."),
+            status_code=400,
+        )
+
+    usuario.password = new_password
+    db.commit()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="usuario/perfil.html",
+        context=_contexto_usuario(request, success="Contraseña actualizada correctamente."),
+    )
+
+
+@router.post("/eliminar-cuenta")
+def eliminar_cuenta(request: Request, db: Session = Depends(get_db)):
+    respuesta = _redirigir_si_no_hay_sesion(request)
+    if respuesta:
+        return respuesta
+
+    usuario_id = request.session.get("usuario_id")
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if not usuario:
+        request.session.clear()
+        return RedirectResponse(url="/", status_code=303)
+
+    db.query(Carrito).filter(Carrito.usuario_id == usuario_id).delete()
+    db.query(Mensaje).filter((Mensaje.remitente_id == usuario_id) | (Mensaje.destinatario_id == usuario_id)).delete()
+
+    productos_usuario = db.query(Producto).filter(Producto.usuario_id == usuario_id).all()
+    for producto in productos_usuario:
+        producto.usuario_id = None
+
+    db.delete(usuario)
+    db.commit()
+    request.session.clear()
+
+    return RedirectResponse(url="/", status_code=303)

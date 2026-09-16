@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - EcoInsumos</title>
+    <link rel="stylesheet" href="/static/css/general.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="container nav-container">
+
+        <a href="/usuario" class="brand">
+            <div class="brand-mark">EI</div>
+            <span>Eco<span>Insumos</span></span>
+        </a>
+
+        <button class="hamburger" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+            <span></span>
+        </button>
+
+        <div class="topbar-nav">
+            <nav class="nav-links">
+                <a href="/usuario">Inicio</a>
+                <a href="/categorias">Categorías</a>
+                <a href="/carrito">Carrito</a>
+                <a href="/usuario/objetos">Objetos disponibles</a>
+                <a href="/usuario/publicar">Publicar objeto</a>
+                <a href="/usuario/mensajes">Mensajes</a>
+            </nav>
+
+            <div class="auth-buttons">
+                <div class="user-menu-wrapper">
+                    <details class="user-menu">
+                        <summary class="user-chip">
+                            <span class="user-icon">👤</span>
+                            <span class="user-name">{{ nombre }}</span>
+                        </summary>
+                        <div class="user-menu-panel">
+                            <a href="/usuario/cambiar-password" class="user-menu-item">Cambiar contraseña</a>
+                            <form action="/usuario/eliminar-cuenta" method="post" class="user-menu-form" onsubmit="return confirm('¿Seguro que deseas eliminar tu cuenta?');">
+                                <button type="submit" class="user-menu-item danger">Eliminar cuenta</button>
+                            </form>
+                            <a href="/auth/logout" class="user-menu-item">Cerrar sesión</a>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</header>
+
+<main class="container catalog">
+
+    <div class="catalog-head">
+        <div>
+            <h1>Mi perfil</h1>
+            <p>Gestiona tus datos y preferencias de seguridad.</p>
+        </div>
+    </div>
+
+    {% if error %}
+        <div class="modal-message error">{{ error }}</div>
+    {% endif %}
+
+    {% if success %}
+        <div class="modal-message success">{{ success }}</div>
+    {% endif %}
+
+    <form action="/usuario/cambiar-password" method="post" class="modal">
+        <label for="current_password">Contraseña actual</label>
+        <input id="current_password" name="current_password" type="password" placeholder="Tu contraseña actual" required>
+
+        <label for="new_password">Nueva contraseña</label>
+        <input id="new_password" name="new_password" type="password" placeholder="Mínimo 6 caracteres" required>
+
+        <label for="confirm_password">Confirmar nueva contraseña</label>
+        <input id="confirm_password" name="confirm_password" type="password" placeholder="Repite la nueva contraseña" required>
+
+        <button type="submit" class="submit-btn">Cambiar contraseña</button>
+    </form>
+
+</main>
+
+</body>
+</html>

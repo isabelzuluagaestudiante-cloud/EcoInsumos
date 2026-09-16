@@ -51,11 +51,11 @@
                 </a>
 
                 <a href="/categorias">
-                    📂 Categorías
+                     Categorías
                 </a>
 
                 <a href="/carrito">
-                    🛒 Carrito
+                     Carrito
                 </a>
 
                 <a href="/usuario/objetos">
@@ -74,20 +74,25 @@
 
 
             <div class="auth-buttons">
-                <div class="user-chip">
-                    <span class="user-icon">
-                        👤
-                    </span>
-                    <span class="user-name">
-                        {{ nombre }}
-                    </span>
+                <div class="user-menu-wrapper">
+                    <details class="user-menu">
+                        <summary class="user-chip">
+                            <span class="user-icon">
+                                👤
+                            </span>
+                            <span class="user-name">
+                                {{ nombre }}
+                            </span>
+                        </summary>
+                        <div class="user-menu-panel">
+                            <a href="/usuario/cambiar-password" class="user-menu-item">Cambiar contraseña</a>
+                            <form action="/usuario/eliminar-cuenta" method="post" class="user-menu-form" onsubmit="return confirm('¿Seguro que deseas eliminar tu cuenta?');">
+                                <button type="submit" class="user-menu-item danger">Eliminar cuenta</button>
+                            </form>
+                            <a href="/auth/logout" class="user-menu-item">Cerrar sesión</a>
+                        </div>
+                    </details>
                 </div>
-
-                <a
-                    href="/auth/logout"
-                    class="stamp-btn">
-                    Cerrar sesión
-                </a>
 
             </div>
             </div>
@@ -154,7 +159,7 @@
                                 <img src="{{ objeto.imagen_url }}" alt="{{ objeto.nombre }}" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:12px;">
                             {% else %}
                                 <div class="card-img-placeholder">
-                                    📦
+                                    
                                 </div>
                             {% endif %}
 
@@ -219,7 +224,7 @@
                 <article class="card">
 
                     <div class="card-img-placeholder">
-                        📦
+                        
                     </div>
 
                     <h3>
@@ -245,7 +250,7 @@
                 <article class="card">
 
                     <div class="card-img-placeholder">
-                        💬
+                        
                     </div>
 
                     <h3>

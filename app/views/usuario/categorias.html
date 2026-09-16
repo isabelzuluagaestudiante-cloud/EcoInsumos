@@ -43,7 +43,7 @@
         {% if categoria_seleccionada %}
             <div class="category-section">
                 <div class="category-header">
-                    <h2 class="category-title">📂 {{ categoria_seleccionada.nombre }}</h2>
+                    <h2 class="category-title"> {{ categoria_seleccionada.nombre }}</h2>
                     <a href="/categorias" class="filter-pill">Ver todas</a>
                 </div>
 
@@ -54,7 +54,7 @@
                                 {% if producto.imagen_url %}
                                     <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}" class="product-image">
                                 {% else %}
-                                    <div class="product-fallback">📦</div>
+                                    <div class="product-fallback"></div>
                                 {% endif %}
                                 <div class="product-name">{{ producto.nombre }}</div>
                                 <div class="product-desc">{{ producto.descripcion }}</div>
@@ -70,9 +70,9 @@
                                 {% if usuario_actual_id and producto.usuario_id != usuario_actual_id %}
                                     <div class="product-actions">
                                         <form action="/carrito/agregar/{{ producto.id }}" method="post" style="display:inline;">
-                                            <button type="submit" class="btn-solid" style="background:#27ae60;color:white;border:none;cursor:pointer;">🛒 Agregar al carrito</button>
+                                            <button type="submit" class="btn-solid" style="background:#27ae60;color:white;border:none;cursor:pointer;">Agregar al carrito</button>
                                         </form>
-                                        <a href="/usuario/mensaje/{{ producto.id }}" class="btn-solid" style="background:#2c3e50;color:white;">✉️ Enviar mensaje</a>
+                                        <a href="/usuario/mensaje/{{ producto.id }}" class="btn-solid" style="background:#2c3e50;color:white;">Enviar mensaje</a>
                                     </div>
                                 {% elif not usuario_actual_id %}
                                     <div class="product-actions">
@@ -91,7 +91,7 @@
                 {% for categoria in categorias %}
                     <div class="category-section">
                         <div class="category-header">
-                            <h2 class="category-title">📂 {{ categoria.nombre }}</h2>
+                            <h2 class="category-title"> {{ categoria.nombre }}</h2>
                             <a href="/categorias?categoria_id={{ categoria.id }}" class="filter-pill">Ver categoría</a>
                         </div>
 
@@ -109,7 +109,7 @@
                                         {% if producto.imagen_url %}
                                             <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}" class="product-image">
                                         {% else %}
-                                            <div class="product-fallback">📦</div>
+                                            <div class="product-fallback"></div>
                                         {% endif %}
                                         <div class="product-name">{{ producto.nombre }}</div>
                                         <div class="product-desc">{{ producto.descripcion }}</div>
@@ -125,9 +125,9 @@
                                         {% if usuario_actual_id and producto.usuario_id != usuario_actual_id %}
                                             <div class="product-actions">
                                                 <form action="/carrito/agregar/{{ producto.id }}" method="post" style="display:inline;">
-                                                    <button type="submit" class="btn-solid" style="background:#27ae60;color:white;border:none;cursor:pointer;">🛒 Agregar al carrito</button>
+                                                    <button type="submit" class="btn-solid" style="background:#27ae60;color:white;border:none;cursor:pointer;">Agregar al carrito</button>
                                                 </form>
-                                                <a href="/usuario/mensaje/{{ producto.id }}" class="btn-solid" style="background:#2c3e50;color:white;">✉️ Enviar mensaje</a>
+                                                <a href="/usuario/mensaje/{{ producto.id }}" class="btn-solid" style="background:#2c3e50;color:white;">Enviar mensaje</a>
                                             </div>
                                         {% elif not usuario_actual_id %}
                                             <div class="product-actions">

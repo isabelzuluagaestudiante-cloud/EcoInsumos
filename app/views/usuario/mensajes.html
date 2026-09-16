@@ -54,11 +54,11 @@
                 </a>
 
                 <a href="/categorias">
-                    📂 Categorías
+                     Categorías
                 </a>
 
                 <a href="/carrito">
-                    🛒 Carrito
+                     Carrito
                 </a>
 
                 <a href="/usuario/objetos">
@@ -78,20 +78,26 @@
             </nav>
 
             <div class="auth-buttons">
-                <div class="user-chip">
-                    <span class="user-icon">
-                        👤
-                    </span>
-                    <span class="user-name">
-                        {{ nombre }}
-                    </span>
+                <div class="user-menu-wrapper">
+                    <details class="user-menu">
+                        <summary class="user-chip">
+                            <span class="user-icon">
+                                👤
+                            </span>
+                            <span class="user-name">
+                                {{ nombre }}
+                            </span>
+                        </summary>
+                        <div class="user-menu-panel">
+                            <a href="/usuario/cambiar-password" class="user-menu-item">Cambiar contraseña</a>
+                            <form action="/usuario/eliminar-cuenta" method="post" class="user-menu-form" onsubmit="return confirm('¿Seguro que deseas eliminar tu cuenta?');">
+                                <button type="submit" class="user-menu-item danger">Eliminar cuenta</button>
+                            </form>
+                            <a href="/auth/logout" class="user-menu-item">Cerrar sesión</a>
+                        </div>
+                    </details>
                 </div>
 
-                <a
-                    href="/auth/logout"
-                    class="stamp-btn">
-                    Cerrar sesión
-                </a>
             </div>
 
         </div>
@@ -123,34 +129,62 @@
 
     {% if mensajes %}
 
-        <div class="grid">
+        <div class="marketplace-messages">
 
             {% for mensaje in mensajes %}
 
-                <article class="card">
+                {% set es_remitente = mensaje.remitente_id == usuario_actual_id %}
 
-                    <span class="tag">
-                        Mensaje
-                    </span>
+                <article class="market-message-card {% if es_remitente %}outgoing{% else %}incoming{% endif %}">
 
+                    <div class="market-message-header">
 
-                    <h3>
-                        {{ mensaje.objeto.nombre }}
-                    </h3>
+                        {% if mensaje.producto and mensaje.producto.imagen_url %}
+                            <img src="{{ mensaje.producto.imagen_url }}" alt="{{ mensaje.producto.nombre }}" class="market-message-image">
+                        {% else %}
+                            <div class="market-message-image placeholder">OBJ</div>
+                        {% endif %}
 
+                        <div class="market-message-product">
+                            <span class="market-message-tag">
+                                {% if es_remitente %}
+                                    Enviado
+                                {% else %}
+                                    Recibido
+                                {% endif %}
+                            </span>
+                            <h3>{{ mensaje.producto.nombre if mensaje.producto else 'Producto de interés' }}</h3>
+                            <p>{{ mensaje.producto.descripcion if mensaje.producto and mensaje.producto.descripcion else 'Interés por este producto.' }}</p>
+                        </div>
 
-                    <p class="desc">
+                    </div>
+
+                    <div class="market-message-meta">
+                        {% if es_remitente %}
+                            <span><strong>Para:</strong> {{ mensaje.destinatario.nombre }}</span>
+                        {% else %}
+                            <span><strong>De:</strong> {{ mensaje.remitente.nombre }}</span>
+                        {% endif %}
+                        <span><strong>Producto:</strong> {{ mensaje.producto.nombre if mensaje.producto else 'Sin producto' }}</span>
+                    </div>
+
+                    <div class="market-message-text">
                         {{ mensaje.contenido }}
-                    </p>
+                    </div>
 
-
-                    <p>
-                        <strong>
-                            De:
-                        </strong>
-
-                        {{ mensaje.remitente.nombre }}
-                    </p>
+                    <div class="market-message-actions">
+                        {% if mensaje.producto %}
+                            <form action="/usuario/mensaje/{{ mensaje.producto.id }}" method="post" class="reply-form-inline">
+                                <textarea name="contenido" rows="2" placeholder="Escribe tu respuesta..." required></textarea>
+                                <button type="submit" class="btn-solid mini-action">Responder</button>
+                            </form>
+                        {% endif %}
+                        <span class="market-message-date">
+                            {% if mensaje.creado_en %}
+                                {{ mensaje.creado_en.strftime('%d/%m/%Y %H:%M') }}
+                            {% endif %}
+                        </span>
+                    </div>
 
                 </article>
 
@@ -163,7 +197,7 @@
         <article class="card">
 
             <div class="card-img-placeholder">
-                💬
+                
             </div>
 
             <h3>
@@ -171,8 +205,8 @@
             </h3>
 
             <p class="desc">
-                Cuando contactes a un publicador
-                tus mensajes aparecerán aquí.
+                Cuando contactes a un vendedor o te escriban sobre uno de tus productos,
+                tus conversaciones aparecerán aquí.
             </p>
 
         </article>

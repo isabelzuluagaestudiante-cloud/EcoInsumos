@@ -17,7 +17,7 @@ db = SessionLocal()
 try:
     # Verificar si ya existen datos
     if db.query(Categoria).count() == 0:
-        print("✅ Inserting sample categories...")
+        print("Inserting sample categories...")
         categorias = [
             Categoria(nombre="Escritorio", descripcion="Artículos para el escritorio y oficina"),
             Categoria(nombre="Escolar", descripcion="Materiales y útiles escolares"),
@@ -26,13 +26,13 @@ try:
         ]
         db.add_all(categorias)
         db.commit()
-        print(f"✅ {len(categorias)} categorías agregadas")
+        print(f"{len(categorias)} categorías agregadas")
     else:
-        print("ℹ️  Las categorías ya existen")
+        print("Las categorías ya existen")
 
     # Agregar productos de prueba
     if db.query(Producto).count() == 0:
-        print("✅ Inserting sample products...")
+        print("Inserting sample products...")
         cat_escritorio = db.query(Categoria).filter_by(nombre="Escritorio").first()
         cat_escolar = db.query(Categoria).filter_by(nombre="Escolar").first()
         
@@ -52,14 +52,14 @@ try:
         ]
         db.add_all(productos)
         db.commit()
-        print(f"✅ {len(productos)} productos agregados")
+        print(f"{len(productos)} productos agregados")
     else:
-        print("ℹ️  Los productos ya existen")
+        print("Los productos ya existen")
 
-    print("\n✅ Datos de prueba cargados exitosamente")
+    print("\nDatos de prueba cargados exitosamente")
 
 except Exception as e:
-    print(f"❌ Error: {e}")
+    print(f"Error: {e}")
     db.rollback()
 finally:
     db.close()
