@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Información del objeto - EcoInsumos
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/general.css">
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <div class="container nav-container">
+
+        <a
+            href="/usuario"
+            class="brand">
+
+            <div class="brand-mark">
+                EI
+            </div>
+
+            <span>
+                Eco<span>Insumos</span>
+            </span>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="container catalog">
+
+
+    {% if objeto %}
+
+        <article class="card">
+
+
+            <!-- IMAGEN -->
+
+            <div class="card-img-placeholder">
+                📦
+            </div>
+
+
+            <!-- ESTADO -->
+
+            <span class="tag">
+                {{ objeto.estado or "Disponible" }}
+            </span>
+
+
+            <!-- NOMBRE -->
+
+            <h1>
+                {{ objeto.nombre }}
+            </h1>
+
+
+            <!-- DESCRIPCIÓN -->
+
+            <h3>
+                Descripción
+            </h3>
+
+            <p class="desc">
+                {{ objeto.descripcion }}
+            </p>
+
+
+            <!-- PUBLICADOR -->
+
+            <h3>
+                Publicador
+            </h3>
+
+            <p>
+                {{ objeto.usuario.nombre }}
+            </p>
+
+
+            <!-- CONTACTAR -->
+
+            <a
+                href="/usuario/mensaje/{{ objeto.id }}"
+                class="btn-solid">
+
+                Contactar publicador
+
+            </a>
+
+
+        </article>
+
+    {% else %}
+
+        <article class="card">
+
+            <h2>
+                Objeto no encontrado
+            </h2>
+
+            <p>
+                El objeto no existe
+                o fue eliminado.
+            </p>
+
+            <a
+                href="/usuario/objetos"
+                class="btn-solid">
+
+                Volver a objetos
+
+            </a>
+
+        </article>
+
+    {% endif %}
+
+
+</main>
+
+
+</body>
+
+</html>

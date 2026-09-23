@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Contactar publicador - EcoInsumos
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/general.css">
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <div class="container nav-container">
+
+        <a
+            href="/usuario"
+            class="brand">
+
+            <div class="brand-mark">
+                EI
+            </div>
+
+            <span>
+                Eco<span>Insumos</span>
+            </span>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="container catalog">
+
+
+    <div class="catalog-head">
+
+        <div>
+
+            <h1>
+                Contactar publicador
+            </h1>
+
+            {% if objeto %}
+
+                <p>
+                    Estás preguntando por:
+                    <strong>
+                        {{ objeto.nombre }}
+                    </strong>
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    {% if error %}
+
+        <div class="modal-message error">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+
+    <form
+        action="/usuario/mensaje/{{ objeto.id }}"
+        method="post"
+        class="modal">
+
+
+        <label for="contenido">
+            Mensaje
+        </label>
+
+
+        <textarea
+            id="contenido"
+            name="contenido"
+            rows="7"
+            placeholder="Escribe tu mensaje al publicador..."
+            required></textarea>
+
+
+        <button
+            type="submit"
+            class="submit-btn">
+
+            Enviar mensaje
+
+        </button>
+
+
+    </form>
+
+
+</main>
+
+
+</body>
+
+</html>
