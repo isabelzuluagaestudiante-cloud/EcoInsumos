@@ -166,7 +166,48 @@
                             <span><strong>De:</strong> {{ mensaje.remitente.nombre }}</span>
                         {% endif %}
                         <span><strong>Producto:</strong> {{ mensaje.producto.nombre if mensaje.producto else 'Sin producto' }}</span>
+                        {% if mensaje.tipo_solicitud and mensaje.tipo_solicitud != 'mensaje' %}
+                            <span><strong>Tipo:</strong> {{ 'Intercambio' if mensaje.tipo_solicitud == 'intercambio' else 'Gratis' }}</span>
+                        {% endif %}
                     </div>
+
+                    {% if mensaje.tipo_solicitud == 'intercambio' %}
+                        <div class="market-message-card incoming" style="padding: 12px; margin: 12px 0;">
+                            <div class="market-message-product">
+                                <span class="market-message-tag">Propuesta de intercambio</span>
+                                {% if mensaje.oferta_imagen_url %}
+                                    <img src="{{ mensaje.oferta_imagen_url }}" alt="Oferta de intercambio" style="width:100%; max-height:220px; object-fit:cover; border-radius:10px; margin-top:10px;">
+                                {% endif %}
+                                {% if mensaje.estado == 'pendiente' %}
+                                    <p style="margin-top:10px; color: #8a6d3b; font-weight: 600;">Estado: Pendiente de revisión</p>
+                                {% elif mensaje.estado == 'aceptado' %}
+                                    <p style="margin-top:10px; color: #1b5e20; font-weight: 600;">Estado: Aceptado</p>
+                                {% else %}
+                                    <p style="margin-top:10px; color: #b71c1c; font-weight: 600;">Estado: Descartado</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% elif mensaje.tipo_solicitud == 'gratis' %}
+                        <div class="market-message-card incoming" style="padding: 12px; margin: 12px 0;">
+                            <div class="market-message-product">
+                                <span class="market-message-tag">Solicitud gratuita</span>
+                                <p style="margin-top:8px;">Solicitud de entrega o recogida coordinada con el publicador.</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if mensaje.producto and mensaje.producto.usuario_id == usuario_actual_id and mensaje.tipo_solicitud == 'intercambio' and mensaje.estado == 'pendiente' %}
+                        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px;">
+                            <form action="/usuario/mensaje/decision/{{ mensaje.id }}" method="post" style="display:inline;">
+                                <input type="hidden" name="decision" value="aceptado">
+                                <button type="submit" class="btn-solid mini-action" style="background:#10B981; color:white; border:none;">Aceptar intercambio</button>
+                            </form>
+                            <form action="/usuario/mensaje/decision/{{ mensaje.id }}" method="post" style="display:inline;">
+                                <input type="hidden" name="decision" value="rechazado">
+                                <button type="submit" class="btn-solid mini-action" style="background:#d9534f; color:white; border:none;">Descartar</button>
+                            </form>
+                        </div>
+                    {% endif %}
 
                     <div class="market-message-text">
                         {{ mensaje.contenido }}

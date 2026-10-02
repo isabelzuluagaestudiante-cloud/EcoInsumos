@@ -156,13 +156,41 @@
     <form
         action="/usuario/mensaje/{{ objeto.id }}"
         method="post"
+        enctype="multipart/form-data"
         class="modal">
 
+
+        {% if objeto.tipo_publicacion == 'intercambio' %}
+            <div class="market-message-card incoming" style="margin-bottom: 16px; padding: 14px;">
+                <div class="market-message-product">
+                    <span class="market-message-tag">Intercambio</span>
+                    <h3>Propuesta de intercambio</h3>
+                    <p>Sube una foto del objeto con el que quieres ofrecer intercambiar y explica en el mensaje qué te interesa.</p>
+                </div>
+            </div>
+
+            <label for="oferta_imagen">
+                Foto del objeto que ofreces
+            </label>
+            <input
+                type="file"
+                id="oferta_imagen"
+                name="oferta_imagen"
+                accept="image/*"
+                style="margin-bottom: 18px; width: 100%;">
+        {% elif objeto.tipo_publicacion == 'gratis' %}
+            <div class="market-message-card incoming" style="margin-bottom: 16px; padding: 14px;">
+                <div class="market-message-product">
+                    <span class="market-message-tag">Gratis</span>
+                    <h3>Solicitar objeto gratis</h3>
+                    <p>Escribe cómo te gustaría recogerlo o coordinar la entrega con el publicador.</p>
+                </div>
+            </div>
+        {% endif %}
 
         <label for="contenido">
             Mensaje
         </label>
-
 
         <textarea
             id="contenido"
@@ -171,15 +199,19 @@
             placeholder="Escribe tu mensaje al publicador..."
             required></textarea>
 
-
         <button
             type="submit"
             class="submit-btn">
 
-            Enviar mensaje
+            {% if objeto.tipo_publicacion == 'intercambio' %}
+                Enviar propuesta de intercambio
+            {% elif objeto.tipo_publicacion == 'gratis' %}
+                Solicitar objeto
+            {% else %}
+                Enviar mensaje
+            {% endif %}
 
         </button>
-
 
     </form>
 

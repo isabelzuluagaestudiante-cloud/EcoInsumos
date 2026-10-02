@@ -170,27 +170,28 @@
                     </p>
 
                     <div class="row">
-                        <span class="price">
-                            {% if objeto.tipo_publicacion == 'gratis' %}
-                                Gratis
-                            {% elif objeto.tipo_publicacion == 'intercambio' %}
-                                Intercambio
-                            {% else %}
-                                ${{ objeto.precio }}
-                            {% endif %}
-                        </span>
+                        {% if objeto.estado == 'Vendida' %}
+                            <span class="tag" style="background:#10B981;color:#FFFFFF;flex-grow:1;text-align:center;">
+                                Comprado
+                            </span>
+                        {% else %}
+                            <span class="price">
+                                {% if objeto.tipo_publicacion == 'gratis' %}
+                                    Gratis
+                                {% elif objeto.tipo_publicacion == 'intercambio' %}
+                                    Intercambio
+                                {% else %}
+                                    ${{ objeto.precio }}
+                                {% endif %}
+                            </span>
 
-                        {% if objeto.usuario_id != usuario_actual_id %}
-                            <div style="display:flex; gap:8px; align-items:center; justify-content:center; flex-wrap:wrap;">
-                                <form action="/carrito/agregar/{{ objeto.id }}" method="post">
-                                    <button type="submit" class="btn-solid mini-action">
-                                        Agregar al carrito
+                            {% if objeto.usuario_id == usuario_actual_id %}
+                                <form action="/usuario/producto/eliminar/{{ objeto.id }}" method="post" onsubmit="return confirm('¿Seguro que deseas eliminar este producto publicado?');">
+                                    <button type="submit" class="btn-solid mini-action secondary" style="background:#ef4444;border-color:#ef4444;">
+                                        Eliminar
                                     </button>
                                 </form>
-                                <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid mini-action secondary">
-                                    Enviar mensaje
-                                </a>
-                            </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </article>
@@ -209,53 +210,60 @@
     <div class="grid">
 
         {% for objeto in objetos %}
+            {% if objeto.estado == 'Disponible' %}
+                <article class="card">
 
-            <article class="card">
+                    {% if objeto.imagen_url %}
+                        <img src="{{ objeto.imagen_url }}" alt="{{ objeto.nombre }}" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                    {% else %}
+                        <div class="card-img-placeholder">
+                            
+                        </div>
+                    {% endif %}
 
-                {% if objeto.imagen_url %}
-                    <img src="{{ objeto.imagen_url }}" alt="{{ objeto.nombre }}" style="width:100%; height:180px; object-fit:cover; border-radius:12px; margin-bottom:12px;">
-                {% else %}
-                    <div class="card-img-placeholder">
-                        
-                    </div>
-                {% endif %}
-
-                <span class="tag tag-{{ objeto.categoria.nombre.lower() if objeto.categoria else 'general' }}">
-                    {{ objeto.categoria.nombre if objeto.categoria else 'Sin categoría' }}
-                </span>
-
-                <h3>
-                    {{ objeto.nombre }}
-                </h3>
-
-                <p class="desc">
-                    {{ objeto.descripcion }}
-                </p>
-
-                <div class="row">
-                    <span class="price">
-                        {% if objeto.tipo_publicacion == 'gratis' %}
-                            Gratis
-                        {% elif objeto.tipo_publicacion == 'intercambio' %}
-                            Intercambio
-                        {% else %}
-                            ${{ objeto.precio }}
-                        {% endif %}
+                    <span class="tag tag-{{ objeto.categoria.nombre.lower() if objeto.categoria else 'general' }}">
+                        {{ objeto.categoria.nombre if objeto.categoria else 'Sin categoría' }}
                     </span>
 
-                    <div style="display:flex; gap:8px; align-items:center; justify-content:center; flex-wrap:wrap;">
-                        <form action="/carrito/agregar/{{ objeto.id }}" method="post">
-                            <button type="submit" class="btn-solid mini-action">
-                                Agregar al carrito
-                            </button>
-                        </form>
-                        <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid mini-action secondary">
-                            Enviar mensaje
-                        </a>
-                    </div>
-                </div>
+                    <h3>
+                        {{ objeto.nombre }}
+                    </h3>
 
-            </article>
+                    <p class="desc">
+                        {{ objeto.descripcion }}
+                    </p>
+
+                    <div class="row">
+                        <span class="price">
+                            {% if objeto.tipo_publicacion == 'gratis' %}
+                                Gratis
+                            {% elif objeto.tipo_publicacion == 'intercambio' %}
+                                Intercambio
+                            {% else %}
+                                ${{ objeto.precio }}
+                            {% endif %}
+                        </span>
+
+                        <div style="display:flex; gap:8px; align-items:center; justify-content:center; flex-wrap:wrap;">
+                            <form action="/carrito/agregar/{{ objeto.id }}" method="post">
+                                <button type="submit" class="btn-solid mini-action">
+                                    {% if objeto.tipo_publicacion == 'gratis' %}
+                                        Solicitar gratis
+                                    {% elif objeto.tipo_publicacion == 'intercambio' %}
+                                        Proponer intercambio
+                                    {% else %}
+                                        Agregar al carrito
+                                    {% endif %}
+                                </button>
+                            </form>
+                            <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid mini-action secondary">
+                                Enviar mensaje
+                            </a>
+                        </div>
+                    </div>
+
+                </article>
+            {% endif %}
 
         {% endfor %}
 

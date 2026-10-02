@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago - EcoInsumos</title>
+    <link rel="stylesheet" href="/static/css/general.css">
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #F3F4F6 0%, #FFFFFF 100%);
+            font-family: Arial, sans-serif;
+            color: #172033;
+        }
+        .checkout-shell {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 0 20px 40px;
+        }
+        .checkout-progress {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .step {
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563EB;
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .step.current {
+            background: #10B981;
+            color: white;
+            border-color: #10B981;
+        }
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 24px;
+        }
+        .panel {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+            padding: 24px;
+        }
+        .panel h2 {
+            margin: 0 0 18px;
+            font-size: 24px;
+        }
+        .section-title {
+            font-size: 14px;
+            color: #4B5563;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .delivery-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .radio-row {
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            background: #F9FAFB;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4B5563;
+        }
+        .radio-row input {
+            accent-color: #10B981;
+        }
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .payment-card {
+            border: 1px solid #dfe7ee;
+            border-radius: 12px;
+            background: #f9fbfd;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #374151;
+        }
+        .payment-card input {
+            accent-color: #10B981;
+        }
+        .card-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .field.full {
+            grid-column: 1 / -1;
+        }
+        .field label {
+            font-weight: 700;
+            color: #172033;
+            font-size: 14px;
+        }
+        .field input {
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #d0d7de;
+            background: white;
+            font-size: 14px;
+        }
+        .field input:focus {
+            outline: 2px solid rgba(16, 185, 129, 0.2);
+            border-color: #10B981;
+        }
+        .summary {
+            background: #172033;
+            color: white;
+            border-radius: 18px;
+            padding: 24px;
+            height: fit-content;
+            position: sticky;
+            top: 24px;
+        }
+        .summary h3 {
+            margin: 0 0 16px;
+            font-size: 24px;
+        }
+        .summary-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+        .summary-item strong {
+            display: block;
+            font-size: 14px;
+        }
+        .summary-item span {
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+        }
+        .totals {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255,255,255,0.86);
+        }
+        .totals-row.total {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 12px;
+            margin-top: 8px;
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+        }
+        .confirm-btn {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 15px 18px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+        .alert {
+            background: #fff3cd;
+            color: #7a4d00;
+            border: 1px solid #ffe69c;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        @media (max-width: 900px) {
+            .checkout-grid { grid-template-columns: 1fr; }
+            .card-form { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-shell">
+        <div class="checkout-progress">
+            <div class="step">Carrito</div>
+            <div class="step">Entrega</div>
+            <div class="step current">Pago</div>
+            <div class="step">Confirmación</div>
+        </div>
+
+        <div class="checkout-grid">
+            <div class="panel">
+                <h2>Información de pago</h2>
+
+                {% if error %}
+                    <div class="alert">{{ error }}</div>
+                {% endif %}
+
+                <form action="/carrito/confirmar-pago" method="post">
+                    <div class="section-title">Tipo de entrega</div>
+                    <div class="delivery-options">
+                        <label class="radio-row">
+                            <input type="radio" name="tipo_entrega_hidden" value="domicilio" {% if tipo_entrega == 'domicilio' %}checked{% endif %} disabled>
+                            <span>Envío a domicilio</span>
+                        </label>
+                        <label class="radio-row">
+                            <input type="radio" name="tipo_entrega_hidden" value="recogida" {% if tipo_entrega == 'recogida' %}checked{% endif %} disabled>
+                            <span>Retiro en local</span>
+                        </label>
+                    </div>
+
+                    <div class="section-title">Método de pago</div>
+                    <div class="payment-methods" id="paymentMethods">
+                        <label class="payment-card">
+                            <input type="radio" name="metodo_pago" value="tarjeta" {% if metodo_pago == 'tarjeta' %}checked{% endif %}>
+                            <span>Tarjeta de crédito o débito</span>
+                        </label>
+                        <label class="payment-card">
+                            <input type="radio" name="metodo_pago" value="transferencia" {% if metodo_pago == 'transferencia' %}checked{% endif %}>
+                            <span>Transferencia bancaria</span>
+                        </label>
+                        <label class="payment-card">
+                            <input type="radio" name="metodo_pago" value="efectivo" {% if metodo_pago == 'efectivo' %}checked{% endif %}>
+                            <span>Efectivo al recoger</span>
+                        </label>
+                    </div>
+
+                    <div id="tarjetaForm" class="card-form">
+                        <div class="field full">
+                            <label for="nombre_titular">Nombre del titular</label>
+                            <input id="nombre_titular" name="nombre_titular" type="text" placeholder="Ej: Ana Gómez" value="{{ request.session.get('nombre_titular', '') }}">
+                        </div>
+                        <div class="field full">
+                            <label for="numero_tarjeta">Número de tarjeta</label>
+                            <input id="numero_tarjeta" name="numero_tarjeta" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="field">
+                            <label for="fecha_vencimiento">Vencimiento</label>
+                            <input id="fecha_vencimiento" name="fecha_vencimiento" type="text" placeholder="MM/AA">
+                        </div>
+                        <div class="field">
+                            <label for="cvv">CVV</label>
+                            <input id="cvv" name="cvv" type="password" inputmode="numeric" placeholder="123">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="confirm-btn">Pagar ahora</button>
+                </form>
+            </div>
+
+            <aside class="summary">
+                <h3>Resumen</h3>
+
+                <div class="summary-items">
+                    {% for item in items %}
+                        <div class="summary-item">
+                            <div>
+                                <strong>{{ item.producto.nombre }}</strong>
+                                <span>Cantidad: {{ item.cantidad }}</span>
+                            </div>
+                            <div>
+                                <strong>${{ (item.producto.precio * item.cantidad) }}</strong>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="totals">
+                    <div class="totals-row">
+                        <span>Subtotal</span>
+                        <strong>${{ subtotal }}</strong>
+                    </div>
+                    <div class="totals-row">
+                        <span>Impuestos</span>
+                        <strong>${{ impuestos }}</strong>
+                    </div>
+                    <div class="totals-row total">
+                        <span>Total</span>
+                        <strong>${{ total_pedido }}</strong>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        const paymentInputs = document.querySelectorAll('input[name="metodo_pago"]');
+        const tarjetaForm = document.getElementById('tarjetaForm');
+
+        function actualizarPago() {
+            const valor = document.querySelector('input[name="metodo_pago"]:checked')?.value || 'tarjeta';
+            tarjetaForm.style.display = valor === 'tarjeta' ? 'grid' : 'none';
+        }
+
+        paymentInputs.forEach(input => input.addEventListener('change', actualizarPago));
+        actualizarPago();
+    </script>
+</body>
+</html>

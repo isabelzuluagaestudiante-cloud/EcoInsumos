@@ -36,6 +36,18 @@ def ensure_schema():
             if "imagen_url" not in columnas:
                 conn.execute(text("ALTER TABLE productos ADD COLUMN imagen_url VARCHAR(255)"))
 
+        if "mensajes" in inspector.get_table_names():
+            columnas_mensajes = {col["name"] for col in inspector.get_columns("mensajes")}
+
+            if "tipo_solicitud" not in columnas_mensajes:
+                conn.execute(text("ALTER TABLE mensajes ADD COLUMN tipo_solicitud VARCHAR(30) DEFAULT 'mensaje'"))
+
+            if "estado" not in columnas_mensajes:
+                conn.execute(text("ALTER TABLE mensajes ADD COLUMN estado VARCHAR(30) DEFAULT 'pendiente'"))
+
+            if "oferta_imagen_url" not in columnas_mensajes:
+                conn.execute(text("ALTER TABLE mensajes ADD COLUMN oferta_imagen_url VARCHAR(255)"))
+
 
 ensure_schema()
 

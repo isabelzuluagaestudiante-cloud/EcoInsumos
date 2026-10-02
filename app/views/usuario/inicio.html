@@ -108,29 +108,61 @@
 
     <main class="container">
 
-        <section class="hero">
+        <section class="hero {% if request.session.get('usuario_id') %}hero-user-session{% endif %}">
 
-            <div class="hero-inner">
+            {% if request.session.get('usuario_id') %}
+                <div class="hero-user-visual">
+                    <img
+                        src="/static/img/banner/Bienvenido%20a%20EcoInsumos.png"
+                        alt="Bienvenido a EcoInsumos"
+                        class="hero-session-image">
+                </div>
+            {% else %}
+                <div class="hero-holes" aria-hidden="true">
+                    <span class="hole"></span>
+                    <span class="hole"></span>
+                    <span class="hole"></span>
+                    <span class="hole"></span>
+                    <span class="hole"></span>
+                </div>
 
-                <span class="eyebrow">
-                    ECOINSUMOS
-                </span>
+                <div class="hero-inner">
 
-                <h1>
-                    Bienvenido a
-                    <span>EcoInsumos</span>
-                </h1>
+                    <span class="eyebrow">
+                        ECOINSUMOS
+                    </span>
 
-                <p>
-                    Encuentra objetos disponibles,
-                    publica objetos usados y
-                    contacta con otros usuarios.
-                </p>
+                    <h1>
+                        Dale una segunda vida
+                        <span>a tus objetos.</span>
+                    </h1>
 
-            </div>
+                    <p>
+                        Publica objetos usados, encuentra lo que necesitas
+                        y contacta directamente con otros usuarios.
+                    </p>
+
+                    <div class="hero-cta">
+
+                        <a
+                            class="btn-solid"
+                            href="#catalogo">
+                            Ver objetos
+                        </a>
+
+                        <button
+                            type="button"
+                            class="btn-outline"
+                            id="openRegisterHero">
+                            Crear cuenta gratis
+                        </button>
+
+                    </div>
+
+                </div>
+            {% endif %}
 
         </section>
-
 
         <!-- ==============================
              OPCIONES
@@ -172,18 +204,29 @@
                             </p>
 
                             <div class="row">
-                                <span class="price">
-                                    {% if objeto.tipo_publicacion == 'gratis' %}
-                                        Gratis
-                                    {% elif objeto.tipo_publicacion == 'intercambio' %}
-                                        Intercambio
-                                    {% else %}
-                                        ${{ objeto.precio }}
-                                    {% endif %}
-                                </span>
-                                <span class="tag">
-                                    {{ objeto.estado }}
-                                </span>
+                                {% if objeto.estado == 'Vendida' %}
+                                    <span class="tag" style="background:#10B981;color:#FFFFFF;flex-grow:1;text-align:center;">
+                                        Comprado
+                                    </span>
+                                {% else %}
+                                    <span class="price">
+                                        {% if objeto.tipo_publicacion == 'gratis' %}
+                                            Gratis
+                                        {% elif objeto.tipo_publicacion == 'intercambio' %}
+                                            Intercambio
+                                        {% else %}
+                                            ${{ objeto.precio }}
+                                        {% endif %}
+                                    </span>
+                                {% endif %}
+
+                                {% if objeto.usuario_id == usuario_actual_id and objeto.estado != 'Vendida' %}
+                                    <form action="/usuario/producto/eliminar/{{ objeto.id }}" method="post" onsubmit="return confirm('¿Seguro que deseas eliminar este producto publicado?');">
+                                        <button type="submit" class="btn-solid mini-action secondary" style="background:#ef4444;border-color:#ef4444;">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                {% endif %}
                             </div>
                         </article>
                     {% endfor %}

@@ -6,24 +6,94 @@
     <title>Carrito</title>
     <link rel="stylesheet" href="/static/css/general.css">
     <style>
-        body { padding: 20px; background: #f5f5f5; }
+        body { padding: 20px; background: #F3F4F6; }
         .container { max-width: 900px; margin: 0 auto; }
-        .cart-header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .cart-item { background: white; padding: 15px; margin: 10px 0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #27ae60; }
-        .item-details h3 { margin: 0 0 8px 0; font-size: 18px; }
-        .item-details p { margin: 4px 0; color: #666; font-size: 14px; }
-        .item-actions { display: flex; gap: 10px; }
-        .item-actions button { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; }
-        .btn-remove { background: #e74c3c; color: white; }
-        .btn-remove:hover { background: #c0392b; }
-        .btn-back { background: #333; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+        .cart-header { background: #FFFFFF; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .cart-item { 
+            background: #FFFFFF; 
+            padding: 20px; 
+            margin: 15px 0; 
+            border-radius: 12px; 
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: 20px;
+            align-items: center;
+            border-left: 4px solid #10B981;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.2s ease;
+        }
+        .cart-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .item-details h3 { margin: 0 0 12px 0; font-size: 18px; color: #172033; font-weight: 600; }
+        .item-details p { margin: 6px 0; color: #4B5563; font-size: 14px; }
+        .item-details .precio-subtotal {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #E5E7EB;
+            font-weight: 600;
+            color: #2563EB;
+            font-size: 16px;
+        }
+        .item-actions { 
+            display: flex; 
+            flex-direction: column;
+            gap: 10px;
+        }
+        .item-actions button { 
+            padding: 10px 16px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-remove { 
+            background: #EF4444; 
+            color: white;
+            min-width: 100px;
+        }
+        .btn-remove:hover { 
+            background: #DC2626;
+            transform: translateY(-2px);
+        }
+        .btn-back { background: #333; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: none !important; margin-bottom: 20px; }
+        .btn-back i,
+        .btn-back .icon,
+        .btn-back svg,
+        .btn-back .fa,
+        .btn-back .bi { display: none !important; }
         .btn-back:hover { background: #555; }
         .cart-empty { text-align: center; padding: 40px; color: #999; }
-        .cart-summary { background: white; padding: 20px; border-radius: 8px; text-align: right; }
-        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; }
-        .total { font-size: 20px; font-weight: bold; color: #27ae60; border-top: 2px solid #ddd; padding-top: 10px; }
-        .cart-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 15px; }
-        .cart-product { display: flex; align-items: center; }
+        .cart-summary { background: #FFFFFF; padding: 24px; border-radius: 12px; text-align: right; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); }
+        .summary-row { display: flex; justify-content: space-between; padding: 12px 0; color: #172033; }
+        .total { font-size: 22px; font-weight: bold; color: #2563EB; border-top: 2px solid #E5E7EB; padding-top: 15px; margin-top: 10px; }
+        .cart-img { 
+            width: 120px; 
+            height: 120px; 
+            object-fit: cover; 
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+        }
+        .cart-product {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-item {
+                grid-template-columns: 100px 1fr;
+                gap: 15px;
+            }
+            .item-actions {
+                grid-column: 1 / -1;
+                flex-direction: row;
+            }
+            .cart-img {
+                width: 100px;
+                height: 100px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -35,53 +105,69 @@
             <p>Total de artículos: {{ items|length }}</p>
         </div>
 
-        {% if request.query_params.get('comprado') == '1' %}
-            <div style="background:#e8f5e9; color:#1e7e34; border:1px solid #a5d6a7; padding:12px 16px; border-radius:8px; margin-bottom:20px; font-weight:600;">
-                 Compra realizada correctamente. Tu carrito quedó vacío.
-            </div>
-        {% endif %}
-
         {% if items %}
-            {% set total = 0 %}
+            {% if request.query_params.get('comprado') == '1' %}
+                <div style="background:#D1FAE5; color:#065F46; border:1px solid #6EE7B7; padding:12px 16px; border-radius:8px; margin-bottom:20px; font-weight:600;">
+                     Compra realizada correctamente. Tu carrito quedó vacío.
+                </div>
+            {% endif %}
+
             {% for item in items %}
                 <div class="cart-item">
+                    {% if item.producto and item.producto.imagen_url %}
+                        <img src="{{ item.producto.imagen_url }}" alt="{{ item.producto.nombre }}" class="cart-img">
+                    {% else %}
+                        <div class="cart-img" style="display:flex;align-items:center;justify-content:center;background:#D1FAE5;color:#10B981;font-size:30px;">📦</div>
+                    {% endif %}
                     <div class="cart-product">
-                        {% if item.producto and item.producto.imagen_url %}
-                            <img src="{{ item.producto.imagen_url }}" alt="{{ item.producto.nombre }}" class="cart-img">
-                        {% else %}
-                            <div class="cart-img" style="display:flex;align-items:center;justify-content:center;background:#e8f5e9;color:#27ae60;font-size:30px;">Imagen</div>
-                        {% endif %}
                         <div class="item-details">
                             <h3>{{ item.producto.nombre if item.producto else 'Producto desconocido' }}</h3>
-                            <p> Cantidad: {{ item.cantidad }}</p>
-                            <p> Precio unitario: ${{ item.producto.precio if item.producto else 0 }}</p>
-                            <p> Subtotal: ${{ (item.producto.precio * item.cantidad) if item.producto else 0 }}</p>
+                            <p>Cantidad: <strong>{{ item.cantidad }}</strong></p>
+                            <p>Precio unitario: <strong>${{ item.producto.precio if item.producto else 0 }}</strong></p>
+                            <div class="precio-subtotal">
+                                Subtotal: ${{ (item.producto.precio * item.cantidad) if item.producto else 0 }}
+                            </div>
                         </div>
                     </div>
                     <div class="item-actions">
-                        <form action="/carrito/eliminar/{{ item.id }}" method="post">
+                        <form action="/carrito/eliminar/{{ item.id }}" method="post" style="width: 100%;">
                             <button class="btn-remove" type="submit">Eliminar</button>
                         </form>
                     </div>
                 </div>
-                {% set total = total + (item.producto.precio * item.cantidad if item.producto else 0) %}
             {% endfor %}
             
             <div class="cart-summary">
                 <div class="summary-row">
                     <span>Subtotal:</span>
-                    <span>${{ total }}</span>
+                    <span>${{ subtotal }}</span>
                 </div>
                 <div class="summary-row">
                     <span>Impuestos (10%):</span>
-                    <span>${{ (total * 0.1)|round|int }}</span>
+                    <span>${{ impuestos }}</span>
                 </div>
                 <div class="summary-row total">
                     <span>TOTAL:</span>
-                    <span>${{ (total * 1.1)|round|int }}</span>
+                    <span>${{ total_pedido }}</span>
                 </div>
-                <form action="/carrito/comprar" method="post" style="margin-top: 20px;">
-                    <button type="submit" style="width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold;">
+
+                <form action="/carrito/pago" method="post" style="margin-top: 20px;">
+                    {% set entrega_actual = tipo_entrega or 'domicilio' %}
+                    <div style="margin-top: 20px; text-align: left; border-top: 1px solid #e5e7eb; padding-top: 18px;">
+                        <p style="margin: 0 0 12px; font-weight: 700; color: #172033;">Tipo de entrega</p>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <label style="display: flex; align-items: center; gap: 8px; color: #4B5563;">
+                                <input type="radio" name="tipo_entrega" value="domicilio" {% if entrega_actual == 'domicilio' %}checked{% endif %}>
+                                Envío a domicilio
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; color: #4B5563;">
+                                <input type="radio" name="tipo_entrega" value="recogida" {% if entrega_actual == 'recogida' %}checked{% endif %}>
+                                Retiro en local
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" style="width: 100%; padding: 12px; background: #10B981; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 20px;">
                          Proceder al pago
                     </button>
                 </form>
@@ -90,7 +176,7 @@
             <div class="cart-empty">
                 <h2>Tu carrito está vacío</h2>
                 <p>Agrega productos desde la sección de objetos.</p>
-                <a href="/usuario/objetos" style="display: inline-block; margin-top: 20px; background: #27ae60; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px;">
+                <a href="/usuario/objetos" style="display: inline-block; margin-top: 20px; background: #10B981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px;">
                     Ir a objetos
                 </a>
             </div>

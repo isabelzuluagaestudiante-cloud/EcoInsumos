@@ -5,24 +5,36 @@
 /* ---------- Variables de colores ---------- */
 
 :root {
-    --primary-color: #23458f;
-    --primary-dark: #18356f;
-    --primary-light: #2f6fc1;
+    /* Colores primarios */
+    --primary-color: #2563EB;
+    --primary-dark: #1D4ED8;
+    --primary-light: #3B82F6;
 
-    --secondary-color: #ffd83d;
+    /* Colores de estados */
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
 
-    --text-color: #1f2937;
-    --text-light: #6b7280;
+    /* Colores de texto */
+    --text-color: #172033;
+    --text-light: #4B5563;
+    --text-lighter: #6B7280;
 
-    --background-color: #f5f7fa;
-    --white: #ffffff;
+    /* Fondos */
+    --background-color: #FFFFFF;
+    --background-alternate: #F3F4F6;
+    --white: #FFFFFF;
 
-    --border-color: #e2e8f0;
+    /* Bordes y sombras */
+    --border-color: #E5E7EB;
+    --border-light: #F0F0F0;
 
-    --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    --shadow-hover: 0 5px 18px rgba(0, 0, 0, 0.12);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.10);
 
-    --radius: 10px;
+    --radius: 12px;
+    --radius-sm: 8px;
 }
 
 
@@ -181,7 +193,7 @@ body {
 .nav-links a:hover {
     color: var(--primary-color);
 
-    background-color: #eef4ff;
+    background-color: rgba(37, 99, 235, 0.08);
 
     transform: translateY(-1px);
 }
@@ -192,7 +204,7 @@ body {
 .nav-links a.active {
     color: var(--primary-color);
 
-    background-color: #eaf1ff;
+    background-color: rgba(37, 99, 235, 0.10);
 
     font-weight: 600;
 }
@@ -261,7 +273,7 @@ body {
     align-items: center;
     justify-content: center;
 
-    background-color: #eef4ff;
+    background-color: rgba(37, 99, 235, 0.10);
 
     color: var(--primary-color);
 
@@ -410,13 +422,13 @@ button,
 .card {
     background-color: white;
 
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-light);
 
     border-radius: var(--radius);
 
     padding: 24px;
 
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-md);
 
     transition:
         transform 0.25s ease,
@@ -519,6 +531,302 @@ a {
 
 a:hover {
     color: var(--primary-dark);
+}
+
+
+/* =========================================================
+   SECCIONES ALTERNATIVAS
+   ========================================================= */
+
+.section-alternate,
+.alternate-bg {
+    background-color: var(--background-alternate);
+    padding: 40px 20px;
+    border-radius: var(--radius);
+}
+
+.section-alternate *,
+.alternate-bg * {
+    color: var(--text-color);
+}
+
+.section-alternate h2,
+.section-alternate h3,
+.alternate-bg h2,
+.alternate-bg h3 {
+    color: var(--text-color);
+}
+
+.section-alternate p,
+.alternate-bg p {
+    color: var(--text-light);
+}
+
+
+/* =========================================================
+   BOTONES ESPECÍFICOS POR COLOR
+   ========================================================= */
+
+/* Botón Azul - Crear cuenta / Iniciar sesión */
+.btn-blue,
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 20px;
+
+    background-color: var(--primary-color);
+
+    color: white;
+
+    border: none;
+
+    border-radius: var(--radius-sm);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.btn-blue:hover,
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-hover);
+}
+
+
+/* Botón Verde - Agregar al carrito */
+.btn-green,
+.btn-success {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 20px;
+
+    background-color: var(--success-color);
+
+    color: white;
+
+    border: none;
+
+    border-radius: var(--radius-sm);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.btn-green:hover,
+.btn-success:hover {
+    background-color: #0A8C5A;
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-hover);
+}
+
+
+/* Botón Naranja - Oferta / Promoción */
+.btn-orange,
+.btn-warning {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 20px;
+
+    background-color: var(--warning-color);
+
+    color: white;
+
+    border: none;
+
+    border-radius: var(--radius-sm);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.btn-orange:hover,
+.btn-warning:hover {
+    background-color: #E8A60C;
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-hover);
+}
+
+
+/* Botón Rojo - Peligro */
+.btn-red,
+.btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 20px;
+
+    background-color: var(--danger-color);
+
+    color: white;
+
+    border: none;
+
+    border-radius: var(--radius-sm);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.btn-red:hover,
+.btn-danger:hover {
+    background-color: #DC2626;
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-hover);
+}
+
+
+/* =========================================================
+   ETIQUETAS DE PRODUCTOS
+   ========================================================= */
+
+.tag,
+.badge {
+    display: inline-block;
+
+    padding: 6px 12px;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+}
+
+/* Etiqueta Verde - Nuevo / Disponible */
+.tag-disponible,
+.tag-nuevo,
+.badge-success {
+    background-color: rgba(16, 185, 129, 0.15);
+
+    color: var(--success-color);
+
+    border: 1px solid rgba(16, 185, 129, 0.30);
+}
+
+/* Etiqueta Naranja - Descuento / Promoción */
+.tag-descuento,
+.tag-promocion,
+.badge-warning {
+    background-color: rgba(245, 158, 11, 0.15);
+
+    color: var(--warning-color);
+
+    border: 1px solid rgba(245, 158, 11, 0.30);
+}
+
+/* Etiqueta Azul - General */
+.tag-general,
+.badge-primary {
+    background-color: rgba(37, 99, 235, 0.15);
+
+    color: var(--primary-color);
+
+    border: 1px solid rgba(37, 99, 235, 0.30);
+}
+
+
+/* =========================================================
+   PRECIOS
+   ========================================================= */
+
+.price,
+.product-price {
+    color: var(--primary-color);
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.price-old {
+    color: var(--text-lighter);
+
+    text-decoration: line-through;
+
+    font-size: 14px;
+
+    margin-right: 8px;
+}
+
+
+/* =========================================================
+   ÉNFASIS Y DESTACADOS
+   ========================================================= */
+
+.text-success {
+    color: var(--success-color);
+}
+
+.text-warning {
+    color: var(--warning-color);
+}
+
+.text-danger {
+    color: var(--danger-color);
+}
+
+.text-primary {
+    color: var(--primary-color);
+}
+
+.bg-success {
+    background-color: rgba(16, 185, 129, 0.10);
+}
+
+.bg-warning {
+    background-color: rgba(245, 158, 11, 0.10);
+}
+
+.bg-danger {
+    background-color: rgba(239, 68, 68, 0.10);
+}
+
+.bg-primary {
+    background-color: rgba(37, 99, 235, 0.10);
 }
 
 

@@ -29,6 +29,7 @@ def listar_categorias(request: Request, categoria_id: int | None = None, db: Ses
         productos = (
             db.query(Producto)
             .filter(Producto.categoria_id == categoria_id)
+            .filter(Producto.estado == "Disponible")
         )
         if usuario_id:
             productos = productos.filter((Producto.usuario_id != usuario_id) | (Producto.usuario_id.is_(None)))

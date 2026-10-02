@@ -212,16 +212,22 @@
             </label>
 
             <input
-                type="number"
+                type="text"
+                id="precio_visual"
+                name="precio_visual"
+                inputmode="numeric"
+                placeholder="Ej: 15.000"
+                autocomplete="off"
+                aria-label="Precio estimado">
+
+            <input
+                type="hidden"
                 id="precio"
                 name="precio"
-                min="1"
-                step="1"
-                placeholder="Ej: 15000"
-                value="1">
+                value="0">
 
-            <small>
-                Solo se usa si eliges la opción de <strong>Precio</strong>.
+            <small class="helper-text">
+                Se formatea automáticamente con puntos y coma.
             </small>
 
 
@@ -252,6 +258,8 @@
 
 </main>
 
+
+<script src="/static/js/general.js"></script>
 
 </body>
 

@@ -511,4 +511,95 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+
+    // ======================================
+    // FORMATEO DE NÚMEROS
+    // ======================================
+
+    const precioVisual = document.getElementById('precio_visual');
+    const precioReal = document.getElementById('precio');
+
+
+    function formatearPrecio(valor) {
+        if (valor === '' || valor === null || valor === undefined) {
+            return '';
+        }
+
+        let texto = String(valor).trim();
+        if (!texto) return '';
+
+        const esNegativo = texto.startsWith('-');
+        if (esNegativo) texto = texto.slice(1);
+
+        texto = texto.replace(/\s/g, '');
+        texto = texto.replace(/\./g, '');
+
+        let parteEntera = texto;
+        let parteDecimal = '';
+
+        if (texto.includes(',')) {
+            const partes = texto.split(',');
+            parteEntera = partes[0];
+            parteDecimal = partes.slice(1).join(',');
+        } else if (texto.includes('.')) {
+            const partes = texto.split('.');
+            parteEntera = partes[0];
+            parteDecimal = partes.slice(1).join('.');
+        }
+
+        parteEntera = parteEntera.replace(/[^\d]/g, '');
+        parteDecimal = parteDecimal.replace(/[^\d]/g, '');
+
+        if (!parteEntera && !parteDecimal) return '';
+
+        parteEntera = parteEntera.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+        let resultado = parteEntera;
+        if (parteDecimal) {
+            resultado += ',' + parteDecimal.slice(0, 2);
+        }
+
+        return esNegativo ? `-${resultado}` : resultado;
+    }
+
+    if (precioVisual && precioReal) {
+        precioVisual.addEventListener('input', function () {
+            const valor = this.value;
+            const limpio = valor.replace(/[^\d,.-]/g, '');
+
+            if (!limpio) {
+                precioReal.value = '0';
+                this.value = '';
+                return;
+            }
+
+            const numeroTexto = limpio.replace(/\./g, '').replace(',', '.');
+            const numero = Number(numeroTexto || 0);
+
+            if (!Number.isFinite(numero)) {
+                precioReal.value = '0';
+                this.value = '';
+                return;
+            }
+
+            precioReal.value = String(Math.round(numero));
+            this.value = formatearPrecio(String(Math.round(numero)));
+        });
+
+        precioVisual.addEventListener('blur', function () {
+            const valor = this.value;
+            if (!valor) {
+                precioReal.value = '0';
+                return;
+            }
+
+            const limpio = valor.replace(/[^\d,.-]/g, '');
+            const normalizado = limpio.replace(/\./g, '').replace(',', '.');
+            const numero = Number(normalizado || 0);
+
+            precioReal.value = String(Math.round(numero));
+            this.value = formatearPrecio(String(Math.round(numero)));
+        });
+    }
+
 });
