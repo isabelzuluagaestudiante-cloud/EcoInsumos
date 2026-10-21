@@ -57,6 +57,10 @@
                     Objetos disponibles
                 </a>
 
+                <a href="/categorias/">Categorías</a>
+
+                <a href="/carrito/">Carrito</a>
+
                 <a
                     href="/usuario/publicar"
                     class="active">
@@ -67,23 +71,13 @@
                     Mensajes
                 </a>
 
+                <a href="/carrito/ventas">Mis ventas</a>
+
             </nav>
 
             <div class="auth-buttons">
-                <div class="user-chip">
-                    <span class="user-icon">
-                        👤
-                    </span>
-                    <span class="user-name">
-                        {{ nombre }}
-                    </span>
-                </div>
-
-                <a
-                    href="/auth/logout"
-                    class="stamp-btn">
-                    Cerrar sesión
-                </a>
+                {% include "usuario/_tema.html" %}
+                {% include "usuario/_menu_usuario.html" %}
             </div>
 
         </div>
@@ -137,63 +131,54 @@
 
         <!-- FORMULARIO -->
 
-        <form
-            action="/usuario/publicar"
-            method="post"
-            enctype="multipart/form-data"
-            class="modal">
+        <form action="/usuario/publicar" method="post" enctype="multipart/form-data" class="modal simple-publish-form">
+            <label for="nombre">Nombre del objeto</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Bicicleta" required>
 
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="6" placeholder="Describe el estado y características del objeto..." required></textarea>
 
-            <label for="nombre">
-                Nombre del objeto
-            </label>
+            <fieldset class="publish-mode">
+                <legend>¿Cómo quieres publicarlo?</legend>
+                <label class="mode-option"><input type="radio" name="modalidad" value="venta" checked> Venta con precio</label>
+                <label class="mode-option"><input type="radio" name="modalidad" value="intercambio"> Intercambio</label>
+            </fieldset>
 
-            <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                placeholder="Ej: Bicicleta"
-                required>
+            <div id="priceField">
+                <label for="precio">Precio</label>
+                <input type="number" id="precio" name="precio" min="0" placeholder="Ej: 15000" required>
+            </div>
+            <p id="exchangeHint" class="exchange-hint hidden">Publicarás este objeto para intercambiarlo por otro, sin precio.</p>
 
+            <label for="categoria_id">Categoría</label>
+            <select id="categoria_id" name="categoria_id" required>
+                <option value="">Selecciona una categoría</option>
+                {% for categoria in categorias %}<option value="{{ categoria.id }}">{{ categoria.nombre }}</option>{% endfor %}
+            </select>
 
-            <label for="descripcion">
-                Descripción
-            </label>
+            <label for="imagen">Foto del objeto (opcional)</label>
+            <input type="file" id="imagen" name="imagen" accept="image/jpeg,image/png,image/webp">
 
-            <textarea
-                id="descripcion"
-                name="descripcion"
-                rows="6"
-                placeholder="Describe el estado y características del objeto..."
-                required></textarea>
-
-
-            <label for="imagen">
-                Foto del objeto
-            </label>
-
-            <input
-                type="file"
-                id="imagen"
-                name="imagen"
-                accept="image/*">
-
-
-            <button
-                type="submit"
-                class="submit-btn">
-
-                Publicar objeto
-
-            </button>
-
-
+            <button type="submit" class="submit-btn">Publicar objeto</button>
         </form>
 
 
     </section>
 
 </main>
+
+{% include "usuario/_footer.html" %}
+
+<script src="/static/js/theme.js"></script>
+<script src="/static/js/general.js"></script>
+<script>
+document.querySelectorAll('input[name="modalidad"]').forEach((option) => option.addEventListener('change', () => {
+    const intercambio = document.querySelector('input[name="modalidad"]:checked').value === 'intercambio';
+    document.getElementById('priceField').classList.toggle('hidden', intercambio);
+    document.getElementById('exchangeHint').classList.toggle('hidden', !intercambio);
+    document.getElementById('precio').required = !intercambio;
+}));
+</script>
 
 
 </body>

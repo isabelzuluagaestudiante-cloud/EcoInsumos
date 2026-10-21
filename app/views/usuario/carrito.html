@@ -1,17 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Carrito</title>
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Carrito - EcoInsumos</title><link rel="stylesheet" href="/static/css/general.css"></head>
 <body>
-    <h1>Carrito</h1>
+<header class="topbar"><div class="container nav-container"><a href="/usuario" class="brand"><div class="brand-mark">EI</div><span>Eco<span>Insumos</span></span></a><button class="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span></button><div class="topbar-nav"><nav class="nav-links"><a href="/usuario">Inicio</a><a href="/usuario/objetos">Objetos disponibles</a><a href="/categorias/">Categorías</a><a href="/carrito/" class="active">Carrito <span class="cart-count" aria-label="{{ cantidad_carrito }} artículos en el carrito">{{ cantidad_carrito }}</span></a><a href="/usuario/publicar">Publicar objeto</a><a href="/usuario/mensajes">Mensajes</a><a href="/carrito/ventas">Mis ventas</a></nav><div class="auth-buttons">{% include "usuario/_tema.html" %}{% include "usuario/_menu_usuario.html" %}</div></div></div></header>
 
-    {% for item in items %}
-        <div>
-            <p>Producto ID: {{ item.producto_id }}</p>
-            <p>Cantidad: {{ item.cantidad }}</p>
-        </div>
-    {% endfor %}
-</body>
-</html>
+<main class="container catalog">
+    <div class="catalog-head"><div><span class="section-kicker">MI CARRITO</span><h1>Confirma tu pedido</h1><p>Completa la simulación para registrar tu compra.</p></div><span class="count">Pago simulado, sin cobros reales.</span></div>
+    <div class="grid">
+        {% for item in items %}
+        <article class="card cart-item">
+            <div class="card-img-placeholder"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#box"></use></svg></div>
+            <span class="tag">Cantidad: {{ item.cantidad }}</span>
+            <h3>{{ item.producto.nombre if item.producto else "Producto" }}</h3>
+            <p class="desc">Objeto listo para una nueva oportunidad.</p>
+            <div class="row"><span class="price">$ {{ item.producto.precio if item.producto else 0 }}</span><a href="/usuario/objetos/{{ item.producto_id }}" class="btn-outline">Ver</a><button type="button" class="btn-solid buy-button" data-producto-id="{{ item.producto_id }}" data-producto-nombre="{{ item.producto.nombre if item.producto else 'Producto' }}" data-producto-precio="{{ item.producto.precio if item.producto else 0 }}">Comprar</button><button type="button" class="btn-outline remove-cart" data-producto-id="{{ item.producto_id }}">Quitar</button></div>
+        </article>
+        {% else %}
+        <article class="card"><div class="card-img-placeholder"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#cart"></use></svg></div><h3>Tu carrito está vacío</h3><p class="desc">Agrega objetos para continuar.</p></article>
+        {% endfor %}
+    </div>
+    <p id="purchaseMessage" class="modal-message hidden"></p>
+</main>
+
+<div id="checkoutOverlay" class="checkout-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <section class="checkout-modal">
+        <button type="button" class="checkout-close" aria-label="Cerrar simulación">×</button>
+        <div class="checkout-heading"><span class="checkout-icon"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#credit-card"></use></svg></span><div><span class="section-kicker">PAGO SIMULADO</span><h2 id="checkoutTitle">Datos para tu pedido</h2></div></div>
+        <p class="checkout-disclaimer">No se realiza ningún cobro ni se guardan tus datos bancarios.</p>
+        <div class="checkout-summary"><span id="checkoutProduct">Producto</span><strong id="checkoutPrice">$ 0</strong></div>
+        <form id="checkoutForm" novalidate>
+            <div class="checkout-fields"><label>Nombre completo<input name="nombre" autocomplete="name" required placeholder="Tu nombre"></label><label>Teléfono<input name="telefono" inputmode="tel" required placeholder="Ej: 300 123 4567"></label><label class="field-wide">Dirección de entrega<input name="direccion" autocomplete="street-address" required placeholder="Ej: Calle 10 # 25-30, apartamento 201"></label><label>Ciudad<input name="ciudad" autocomplete="address-level2" required placeholder="Ej: Bogotá"></label><label>Forma de pago<select name="metodo" required><option value="">Selecciona una opción</option><option>Cuenta bancaria simulada</option><option>Tarjeta simulada</option><option>Pago contraentrega simulado</option></select></label><label class="field-wide">Número de cuenta o tarjeta <small>(simulado)</small><input name="cuenta" inputmode="numeric" required minlength="6" placeholder="Ingresa solo datos ficticios"></label></div>
+            <p id="checkoutStatus" class="checkout-status" aria-live="polite"></p>
+            <button type="submit" id="checkoutConfirm" class="btn-solid checkout-confirm">Confirmar compra simulada</button>
+        </form>
+    </section>
+</div>
+
+{% include "usuario/_footer.html" %}
+<script src="/static/js/theme.js"></script><script src="/static/js/general.js"></script>
+<script>
+(() => {
+    const overlay = document.getElementById('checkoutOverlay');
+    const form = document.getElementById('checkoutForm');
+    const confirm = document.getElementById('checkoutConfirm');
+    const status = document.getElementById('checkoutStatus');
+    let productId = null;
+    const close = () => overlay.classList.add('hidden');
+    document.querySelector('.checkout-close').addEventListener('click', close);
+    overlay.addEventListener('click', (event) => { if (event.target === overlay) close(); });
+    document.querySelectorAll('.buy-button').forEach((button) => button.addEventListener('click', () => {
+        productId = button.dataset.productoId;
+        document.getElementById('checkoutProduct').textContent = button.dataset.productoNombre;
+        document.getElementById('checkoutPrice').textContent = '$ ' + button.dataset.productoPrecio;
+        form.reset(); status.textContent = ''; status.className = 'checkout-status'; confirm.disabled = false; confirm.textContent = 'Confirmar compra simulada';
+        overlay.classList.remove('hidden');
+    }));
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        confirm.disabled = true; confirm.textContent = 'Procesando…'; status.textContent = 'Validando tu pago simulado…';
+        await new Promise((resolve) => window.setTimeout(resolve, 1200));
+        try {
+            const response = await fetch('/carrito/comprar/' + productId, {method: 'POST'});
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.mensaje || data.detail || 'No fue posible completar la compra.');
+            status.className = 'checkout-status success'; status.textContent = '¡Compra simulada aprobada! El pedido fue registrado.'; confirm.textContent = 'Compra completada';
+            window.setTimeout(() => window.location.reload(), 1500);
+        } catch (error) { status.className = 'checkout-status error'; status.textContent = error.message; confirm.disabled = false; confirm.textContent = 'Intentar de nuevo'; }
+    });
+    document.querySelectorAll('.remove-cart').forEach((button) => button.addEventListener('click', async () => { await fetch('/carrito/quitar/' + button.dataset.productoId, {method: 'POST'}); window.location.reload(); }));
+})();
+</script>
+</body></html>

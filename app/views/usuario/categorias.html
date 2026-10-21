@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Categorías</title>
-</head>
-<body>
-    <h1>Categorías</h1>
-
-    {% for categoria in categorias %}
-        <div>
-            <h3>{{ categoria.nombre }}</h3>
-            <p>{{ categoria.descripcion }}</p>
-        </div>
-    {% endfor %}
-</body>
-</html>
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Categorías - EcoInsumos</title><link rel="stylesheet" href="/static/css/general.css"></head><body>
+<header class="topbar"><div class="container nav-container"><a href="/usuario" class="brand"><div class="brand-mark">EI</div><span>Eco<span>Insumos</span></span></a><button class="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span></button><div class="topbar-nav"><nav class="nav-links"><a href="/usuario">Inicio</a><a href="/usuario/objetos">Objetos disponibles</a><a href="/categorias/" class="active">Categorías</a><a href="/carrito/">Carrito</a><a href="/usuario/publicar">Publicar objeto</a><a href="/usuario/mensajes">Mensajes</a><a href="/carrito/ventas">Mis ventas</a></nav><div class="auth-buttons">{% include "usuario/_tema.html" %}{% include "usuario/_menu_usuario.html" %}</div></div></div></header>
+<main class="container catalog"><div class="catalog-head"><div><h1>Categorías</h1><p>Explora los productos por categoría.</p></div></div><div class="grid">{% for categoria in categorias %}<article class="card">{% if categoria.imagen %}<img class="product-image" src="/static/uploads/{{ categoria.imagen }}" alt="Categoría {{ categoria.nombre }}">{% else %}<div class="card-img-placeholder">♻️</div>{% endif %}<h3>{{ categoria.nombre }}</h3><p class="desc">{{ categoria.descripcion or "Productos disponibles en esta categoría." }}</p><a class="btn-solid" href="/categorias/{{ categoria.id }}">Ver productos</a></article>{% else %}<article class="card"><h3>Sin categorías</h3><p class="desc">Aún no hay categorías registradas.</p></article>{% endfor %}</div></main>
+{% include "usuario/_footer.html" %}<script src="/static/js/theme.js"></script><script src="/static/js/general.js"></script></body></html>

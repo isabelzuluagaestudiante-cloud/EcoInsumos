@@ -41,6 +41,10 @@
 
         </a>
 
+        <div class="auth-buttons">
+            {% include "usuario/_tema.html" %}
+        </div>
+
     </div>
 
 </header>
@@ -56,15 +60,15 @@
 
             <!-- IMAGEN -->
 
-            <div class="card-img-placeholder">
-                📦
-            </div>
+            {% if objeto.imagen %}
+                <img class="product-image" src="/static/uploads/{{ objeto.imagen }}" alt="{{ objeto.nombre }}">
+            {% else %}<div class="card-img-placeholder"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#box"></use></svg></div>{% endif %}
 
 
             <!-- ESTADO -->
 
             <span class="tag">
-                {{ objeto.estado or "Disponible" }}
+                {{ "Disponible" if objeto.disponible else "Vendido" }}
             </span>
 
 
@@ -85,6 +89,11 @@
                 {{ objeto.descripcion }}
             </p>
 
+            <h3>Modalidad</h3>
+            <p class="{{ 'exchange-price' if objeto.es_intercambio else '' }}">
+                {{ "Intercambio: propone un objeto" if objeto.es_intercambio else "Precio: $ " ~ objeto.precio }}
+            </p>
+
 
             <!-- PUBLICADOR -->
 
@@ -93,19 +102,17 @@
             </h3>
 
             <p>
-                {{ objeto.usuario.nombre }}
+                {{ objeto.vendedor.nombre if objeto.vendedor else "Vendedor no disponible" }}
             </p>
 
 
             <!-- CONTACTAR -->
 
-            <a
-                href="/usuario/mensaje/{{ objeto.id }}"
-                class="btn-solid">
-
-                Contactar publicador
-
-            </a>
+            {% if objeto.es_intercambio %}
+            <a href="/usuario/intercambio/{{ objeto.id }}" class="btn-solid">Proponer intercambio</a>
+            {% else %}
+            <a href="/usuario/mensaje/{{ objeto.id }}" class="btn-solid">Contactar publicador</a>
+            {% endif %}
 
 
         </article>
@@ -137,6 +144,8 @@
 
 
 </main>
+
+<script src="/static/js/theme.js"></script>
 
 
 </body>

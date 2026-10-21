@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis intercambios - EcoInsumos</title>
+    <link rel="stylesheet" href="/static/css/general.css">
+</head>
+<body>
+<header class="topbar"><div class="container nav-container"><a href="/usuario" class="brand"><div class="brand-mark">EI</div><span>Eco<span>Insumos</span></span></a><div class="auth-buttons">{% include "usuario/_tema.html" %}{% include "usuario/_menu_usuario.html" %}</div></div></header>
+<main class="container catalog">
+    <div class="catalog-head"><div><span class="section-kicker">MIS INTERCAMBIOS</span><h1>Solicitudes de intercambio</h1><p>Revisa las propuestas enviadas y las que recibiste.</p></div></div>
+    <div class="grid">
+        {% for solicitud in solicitudes %}
+        <article class="card exchange-request">
+            <span class="tag exchange-state {{ solicitud.estado }}">{{ solicitud.estado|capitalize }}</span>
+            <p class="exchange-direction">{{ "Propuesta recibida" if solicitud.producto_solicitado.vendedor_id == usuario_id else "Propuesta enviada" }}</p>
+            <h3>{{ solicitud.producto_solicitado.nombre }}</h3>
+            <p class="desc"><strong>{{ solicitud.solicitante.nombre }}</strong> ofrece <strong>{{ solicitud.producto_ofrecido.nombre }}</strong>.</p>
+            {% if solicitud.mensaje %}<p class="exchange-message">“{{ solicitud.mensaje }}”</p>{% endif %}
+            {% if solicitud.estado == "pendiente" and solicitud.producto_solicitado.vendedor_id == usuario_id %}
+            <div class="row"><form action="/usuario/intercambios/{{ solicitud.id }}/aceptar" method="post"><button class="btn-solid" type="submit">Aceptar</button></form><form action="/usuario/intercambios/{{ solicitud.id }}/rechazar" method="post"><button class="btn-outline" type="submit">Rechazar</button></form></div>
+            {% endif %}
+        </article>
+        {% else %}
+        <article class="card empty-exchange"><h2>No hay solicitudes todavía</h2><p class="desc">Cuando propongas o recibas un intercambio, aparecerá aquí.</p><a href="/usuario/objetos" class="btn-solid">Explorar objetos</a></article>
+        {% endfor %}
+    </div>
+</main>
+{% include "usuario/_footer.html" %}
+<script src="/static/js/theme.js"></script><script src="/static/js/general.js"></script>
+</body>
+</html>

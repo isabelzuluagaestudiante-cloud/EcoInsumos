@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Movimientos - EcoInsumos</title><link rel="stylesheet" href="/static/css/general.css"></head>
+<body>
+<header class="topbar"><div class="container nav-container"><a href="/usuario" class="brand"><div class="brand-mark">EI</div><span>Eco<span>Insumos</span></span></a><button class="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span></button><div class="topbar-nav"><nav class="nav-links"><a href="/usuario">Inicio</a><a href="/usuario/objetos">Objetos disponibles</a><a href="/categorias/">Categorías</a><a href="/carrito/">Carrito</a><a href="/usuario/publicar">Publicar objeto</a><a href="/usuario/mensajes">Mensajes</a><a href="/carrito/ventas" class="active">Mis ventas</a></nav><div class="auth-buttons">{% include "usuario/_tema.html" %}{% include "usuario/_menu_usuario.html" %}</div></div></div></header>
+<main class="container catalog">
+    <div class="catalog-head"><div><span class="section-kicker">MOVIMIENTOS</span><h1>Ventas y compras</h1><p>Consulta todas tus operaciones confirmadas.</p></div></div>
+    <section class="movement-section"><h2>Mis ventas</h2><div class="grid">
+        {% for venta in ventas %}<article class="card"><span class="tag movement-sale">Venta</span><h3>{{ venta.producto.nombre }}</h3><p class="desc">Confirmada el {{ venta.creada_en.strftime('%d/%m/%Y') }}</p><p><strong>Comprador:</strong> {{ venta.comprador.nombre }}</p><p><strong>WhatsApp:</strong> {{ venta.comprador.whatsapp }}</p></article>{% else %}<article class="card"><h3>Aún no tienes ventas</h3><p class="desc">Tus objetos vendidos aparecerán aquí.</p></article>{% endfor %}
+    </div></section>
+    <section class="movement-section"><h2>Mis compras</h2><div class="grid">
+        {% for compra in compras_realizadas %}<article class="card"><span class="tag movement-buy">Compra</span><h3>{{ compra.producto.nombre }}</h3><p class="desc">Confirmada el {{ compra.creada_en.strftime('%d/%m/%Y') }}</p><p><strong>Vendedor:</strong> {{ compra.producto.vendedor.nombre if compra.producto.vendedor else "No disponible" }}</p></article>{% else %}<article class="card"><h3>Aún no tienes compras</h3><p class="desc">Las compras que realices aparecerán aquí.</p></article>{% endfor %}
+    </div></section>
+</main>
+{% include "usuario/_footer.html" %}<script src="/static/js/theme.js"></script><script src="/static/js/general.js"></script></body></html>

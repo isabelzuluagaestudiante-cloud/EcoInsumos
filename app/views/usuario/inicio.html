@@ -54,6 +54,10 @@
                     Objetos disponibles
                 </a>
 
+                <a href="/categorias/">Categorías</a>
+
+                <a href="/carrito/">Carrito</a>
+
                 <a href="/usuario/publicar">
                     Publicar objeto
                 </a>
@@ -62,24 +66,14 @@
                     Mensajes
                 </a>
 
+                <a href="/carrito/ventas">Mis ventas</a>
+
             </nav>
 
 
             <div class="auth-buttons">
-                <div class="user-chip">
-                    <span class="user-icon">
-                        👤
-                    </span>
-                    <span class="user-name">
-                        {{ nombre }}
-                    </span>
-                </div>
-
-                <a
-                    href="/auth/logout"
-                    class="stamp-btn">
-                    Cerrar sesión
-                </a>
+                {% include "usuario/_tema.html" %}
+                {% include "usuario/_menu_usuario.html" %}
 
             </div>
             </div>
@@ -95,24 +89,44 @@
 
     <main class="container">
 
-        <section class="hero">
+        <section class="hero home-hero">
+
+            <div class="hero-book-flock" aria-hidden="true">
+                <svg class="flying-book book-one" viewBox="0 0 48 36"><path d="M5 8c8-3 14-2 19 2v20c-5-4-11-5-19-2V8Z"/><path d="M43 8c-8-3-14-2-19 2v20c5-4 11-5 19-2V8Z"/><path d="M24 10v20"/></svg>
+                <svg class="flying-book book-two" viewBox="0 0 48 36"><path d="M5 8c8-3 14-2 19 2v20c-5-4-11-5-19-2V8Z"/><path d="M43 8c-8-3-14-2-19 2v20c5-4 11-5 19-2V8Z"/><path d="M24 10v20"/></svg>
+                <svg class="flying-book book-three" viewBox="0 0 48 36"><path d="M5 8c8-3 14-2 19 2v20c-5-4-11-5-19-2V8Z"/><path d="M43 8c-8-3-14-2-19 2v20c5-4 11-5 19-2V8Z"/><path d="M24 10v20"/></svg>
+                <svg class="flying-book book-four" viewBox="0 0 48 36"><path d="M5 8c8-3 14-2 19 2v20c-5-4-11-5-19-2V8Z"/><path d="M43 8c-8-3-14-2-19 2v20c5-4 11-5 19-2V8Z"/><path d="M24 10v20"/></svg>
+                <svg class="flying-book book-five" viewBox="0 0 48 36"><path d="M5 8c8-3 14-2 19 2v20c-5-4-11-5-19-2V8Z"/><path d="M43 8c-8-3-14-2-19 2v20c5-4 11-5 19-2V8Z"/><path d="M24 10v20"/></svg>
+                <svg class="flying-book book-six" viewBox="0 0 48 36"><path d="M5 8c8-3 14-2 19 2v20c-5-4-11-5-19-2V8Z"/><path d="M43 8c-8-3-14-2-19 2v20c5-4 11-5 19-2V8Z"/><path d="M24 10v20"/></svg>
+            </div>
 
             <div class="hero-inner">
+                <div class="home-hero-copy">
+                    <span class="eyebrow">TU ESPACIO ECO</span>
 
-                <span class="eyebrow">
-                    ECOINSUMOS
-                </span>
+                    <h1>
+                        Hola, <span>{{ nombre }}</span>
+                    </h1>
 
-                <h1>
-                    Bienvenido a
-                    <span>EcoInsumos</span>
-                </h1>
+                    <p>
+                        Dale una nueva vida a lo que tienes y encuentra justo lo que necesitas.
+                    </p>
 
-                <p>
-                    Encuentra objetos disponibles,
-                    publica objetos usados y
-                    contacta con otros usuarios.
-                </p>
+                    <div class="home-quick-stats" aria-label="Resumen de EcoInsumos">
+                        <span><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#recycle"></use></svg> Reutiliza</span>
+                        <span><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#box"></use></svg> Publica</span>
+                        <span><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#handshake"></use></svg> Conecta</span>
+                    </div>
+                </div>
+
+                <div class="home-hero-visual">
+                    <img class="is-active" src="/static/uploads/hero-reutilizacion-ia.png"
+                         alt="Dos personas intercambiando una caja con objetos reutilizables">
+                    <img src="/static/uploads/hero-publicar-ia.png"
+                         alt="Persona publicando objetos reutilizables desde su espacio de trabajo">
+                    <img src="/static/uploads/hero-descubrir-ia.png"
+                         alt="Dos personas descubriendo objetos útiles para reutilizar">
+                </div>
 
             </div>
 
@@ -127,9 +141,8 @@
 
             <div class="catalog-head">
 
-                <h2>
-                    ¿Qué deseas hacer?
-                </h2>
+                <div><span class="section-kicker">ACCESOS RÁPIDOS</span><h2>¿Qué quieres hacer hoy?</h2></div>
+                <span class="count">Todo comienza con una segunda oportunidad.</span>
 
             </div>
 
@@ -138,10 +151,10 @@
 
                 <!-- OBJETOS -->
 
-                <article class="card">
+                <article class="card home-action action-search">
 
-                    <div class="card-img-placeholder">
-                        🔎
+                    <div class="card-img-placeholder action-icon" aria-hidden="true">
+                        <svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#search"></use></svg>
                     </div>
 
                     <h3>
@@ -164,10 +177,10 @@
 
                 <!-- PUBLICAR -->
 
-                <article class="card">
+                <article class="card home-action action-publish">
 
-                    <div class="card-img-placeholder">
-                        📦
+                    <div class="card-img-placeholder action-icon" aria-hidden="true">
+                        <svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#box"></use></svg>
                     </div>
 
                     <h3>
@@ -190,10 +203,10 @@
 
                 <!-- MENSAJES -->
 
-                <article class="card">
+                <article class="card home-action action-message">
 
-                    <div class="card-img-placeholder">
-                        💬
+                    <div class="card-img-placeholder action-icon" aria-hidden="true">
+                        <svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#message"></use></svg>
                     </div>
 
                     <h3>
@@ -224,23 +237,9 @@
          FOOTER
     =============================== -->
 
-    <footer>
-
-        <div class="container footer-content">
-
-            <p>
-                <strong>EcoInsumos</strong>
-                — Reutiliza, comparte y encuentra.
-            </p>
-
-            <p class="footer-note">
-                © 2026 EcoInsumos
-            </p>
-
-        </div>
-
-    </footer>
+    {% include "usuario/_footer.html" %}
 
 </body>
-
+<script src="/static/js/theme.js"></script>
+<script src="/static/js/general.js"></script>
 </html>

@@ -44,12 +44,14 @@
                     type="button"
                     aria-label="Buscar"
                     id="searchButton">
-                    🔍
+                    <svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#search"></use></svg>
                 </button>
 
             </div>
 
             <div class="auth-buttons">
+
+                <button type="button" class="theme-toggle" data-theme-toggle aria-label="Activar modo noche" title="Activar modo noche" aria-pressed="false"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#moon"></use></svg></button>
 
                 <!-- LOGIN -->
                 <button
@@ -150,7 +152,7 @@
 
             <div class="trust-item">
 
-                <span class="icon">🔒</span>
+                <span class="icon"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#lock"></use></svg></span>
 
                 <div>
                     <h4>Usuarios registrados</h4>
@@ -164,7 +166,7 @@
 
             <div class="trust-item">
 
-                <span class="icon">💬</span>
+                <span class="icon"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#message"></use></svg></span>
 
                 <div>
                     <h4>Comunícate</h4>
@@ -261,7 +263,7 @@
                 data-cat="oficina">
 
                 <div class="card-img-placeholder">
-                    📎
+                    <svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#paperclip"></use></svg>
                 </div>
 
                 <span class="tag tag-oficina">
@@ -300,7 +302,7 @@
                 data-cat="escolar">
 
                 <div class="card-img-placeholder">
-                    📓
+                    <svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#notebook"></use></svg>
                 </div>
 
                 <span class="tag tag-escolar">
@@ -339,7 +341,7 @@
                 data-cat="arte">
 
                 <div class="card-img-placeholder">
-                    🎨
+                    <svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#palette"></use></svg>
                 </div>
 
                 <span class="tag tag-arte">
@@ -378,7 +380,7 @@
                 data-cat="tecnologia">
 
                 <div class="card-img-placeholder">
-                    🖱️
+                    <svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#mouse"></use></svg>
                 </div>
 
                 <span class="tag tag-tecnologia">
@@ -418,18 +420,14 @@
          FOOTER
     ====================================================== -->
 
-    <footer>
+    <footer class="app-footer">
 
         <div class="container footer-content">
 
-            <p>
-                <strong>EcoInsumos</strong>
-                — Plataforma para reutilizar y compartir objetos.
-            </p>
-
-            <p class="footer-note">
-                © 2026 EcoInsumos
-            </p>
+            <a href="/" class="brand" aria-label="EcoInsumos - Inicio">
+                <div class="brand-mark">EI</div>
+                <span>Eco<span>Insumos</span></span>
+            </a>
 
         </div>
 
@@ -599,6 +597,24 @@
                     placeholder="Mínimo 8 caracteres"
                     required>
 
+                <label for="regWhatsapp">
+                    Número de WhatsApp
+                </label>
+
+                <input
+                    id="regWhatsapp"
+                    name="whatsapp"
+                    type="tel"
+                    inputmode="tel"
+                    placeholder="Ej: +57 300 123 4567"
+                    minlength="7"
+                    maxlength="20"
+                    required>
+
+                <p class="privacy-note">
+                    Dato privado: solo se comparte con el vendedor después de una compra para coordinar el domicilio.
+                </p>
+
 
                 <button
                     class="submit-btn"
@@ -631,6 +647,7 @@
          JAVASCRIPT
     ====================================================== -->
 
+    <script src="/static/js/theme.js"></script>
     <script>
 
         /* =====================================================

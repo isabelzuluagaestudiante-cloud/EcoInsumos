@@ -60,6 +60,10 @@
                     Objetos disponibles
                 </a>
 
+                <a href="/categorias/">Categorías</a>
+
+                <a href="/carrito/">Carrito</a>
+
                 <a href="/usuario/publicar">
                     Publicar objeto
                 </a>
@@ -68,25 +72,14 @@
                     Mensajes
                 </a>
 
+                <a href="/carrito/ventas">Mis ventas</a>
+
             </nav>
 
 
             <div class="auth-buttons">
-
-                <div class="user-chip">
-                    <span class="user-icon">
-                        👤
-                    </span>
-                    <span class="user-name">
-                        {{ nombre }}
-                    </span>
-                </div>
-
-                <a
-                    href="/auth/logout"
-                    class="stamp-btn">
-                    Cerrar sesión
-                </a>
+                {% include "usuario/_tema.html" %}
+                {% include "usuario/_menu_usuario.html" %}
 
             </div>
 
@@ -103,9 +96,7 @@
 
         <div>
 
-            <h1>
-                Objetos disponibles
-            </h1>
+            <h1>{{ categoria_actual.nombre if categoria_actual else "Objetos disponibles" }}</h1>
 
             <p>
                 Explora los objetos publicados por otros usuarios.
@@ -122,12 +113,14 @@
 
             <article class="card">
 
-                <div class="card-img-placeholder">
-                    {{ objeto.icono }}
-                </div>
+                {% if objeto.imagen %}
+                    <img class="product-image" src="/static/uploads/{{ objeto.imagen }}" alt="{{ objeto.nombre }}">
+                {% else %}
+                    <div class="card-img-placeholder"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#box"></use></svg></div>
+                {% endif %}
 
-                <span class="tag tag-{{ objeto.categoria }}">
-                    {{ objeto.categoria }}
+                <span class="tag">
+                    {{ "Intercambio" if objeto.es_intercambio else objeto.categoria.nombre }}
                 </span>
 
                 <h3>
@@ -139,15 +132,16 @@
                 </p>
 
                 <div class="row">
-                    <span class="price">
-                        {{ objeto.estado }}
+                    <span class="price {{ 'exchange-price' if objeto.es_intercambio else '' }}">
+                        {{ "Intercambio" if objeto.es_intercambio else "$ " ~ objeto.precio }}
                     </span>
 
-                    <a
-                        href="/usuario/mensajes"
-                        class="btn-solid">
-                        Consultar
-                    </a>
+                    <a href="/usuario/objetos/{{ objeto.id }}" class="btn-outline">Ver</a>
+                    {% if objeto.es_intercambio %}
+                    <a href="/usuario/intercambio/{{ objeto.id }}" class="btn-solid">Proponer intercambio</a>
+                    {% else %}
+                    <button type="button" class="btn-solid add-cart" data-producto-id="{{ objeto.id }}">Agregar</button>
+                    {% endif %}
                 </div>
 
             </article>
@@ -157,6 +151,18 @@
     </div>
 
 </main>
+
+{% include "usuario/_footer.html" %}
+
+<script src="/static/js/theme.js"></script>
+<script src="/static/js/general.js"></script>
+<script>
+document.querySelectorAll('.add-cart').forEach((button) => button.addEventListener('click', async () => {
+    const response = await fetch('/carrito/agregar/' + button.dataset.productoId, {method: 'POST'});
+    const data = await response.json();
+    window.alert(data.mensaje || data.detail);
+}));
+</script>
 
 
 </body>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proponer intercambio - EcoInsumos</title>
+    <link rel="stylesheet" href="/static/css/general.css">
+</head>
+<body>
+<header class="topbar"><div class="container nav-container"><a href="/usuario" class="brand"><div class="brand-mark">EI</div><span>Eco<span>Insumos</span></span></a><div class="auth-buttons">{% include "usuario/_tema.html" %}{% include "usuario/_menu_usuario.html" %}</div></div></header>
+<main class="container catalog">
+    <div class="catalog-head"><div><span class="section-kicker">INTERCAMBIO</span><h1>Propón un intercambio</h1><p>Ofrece uno de tus objetos por <strong>{{ objeto.nombre }}</strong>.</p></div></div>
+    {% if objetos_propios %}
+    <form action="/usuario/intercambio/{{ objeto.id }}" method="post" class="modal simple-publish-form exchange-form">
+        <div class="exchange-object"><span>Quieres recibir</span><strong>{{ objeto.nombre }}</strong><small>Publicado por {{ objeto.vendedor.nombre }}</small></div>
+        <label for="producto_ofrecido_id">Elige el objeto que vas a ofrecer</label>
+        <select id="producto_ofrecido_id" name="producto_ofrecido_id" required>
+            <option value="">Selecciona uno de tus objetos</option>
+            {% for propio in objetos_propios %}<option value="{{ propio.id }}">{{ propio.nombre }}{% if not propio.es_intercambio %} · $ {{ propio.precio }}{% endif %}</option>{% endfor %}
+        </select>
+        <label for="mensaje">Mensaje para el publicador <small>(opcional)</small></label>
+        <textarea id="mensaje" name="mensaje" rows="4" placeholder="Ej: Tengo este objeto en muy buen estado, ¿te interesa intercambiarlo?"></textarea>
+        <p class="exchange-hint">Al aceptar, ambos objetos quedarán marcados como intercambiados.</p>
+        <button type="submit" class="submit-btn">Enviar propuesta</button>
+    </form>
+    {% else %}
+    <article class="card empty-exchange"><h2>Aún no tienes objetos para ofrecer</h2><p class="desc">Publica primero un objeto disponible y luego podrás usarlo en una propuesta de intercambio.</p><a href="/usuario/publicar" class="btn-solid">Publicar objeto</a></article>
+    {% endif %}
+</main>
+{% include "usuario/_footer.html" %}
+<script src="/static/js/theme.js"></script><script src="/static/js/general.js"></script>
+</body>
+</html>

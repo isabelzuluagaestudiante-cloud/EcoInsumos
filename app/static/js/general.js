@@ -2,6 +2,34 @@
 // ECOINSUMOS - MODALES
 // ==========================================
 
+window.ecoToast = function (mensaje, tipo = "info") {
+    let container = document.querySelector(".toast-container");
+    if (!container) {
+        container = document.createElement("div");
+        container.className = "toast-container";
+        container.setAttribute("aria-live", "polite");
+        document.body.appendChild(container);
+    }
+
+    const icono = tipo === "success" ? "check" : tipo === "error" ? "message" : "box";
+    const toast = document.createElement("div");
+    toast.className = "toast " + tipo;
+    toast.innerHTML = '<span class="toast-icon"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#' + icono + '"></use></svg></span><span class="toast-text"></span><button class="toast-close" type="button" aria-label="Cerrar notificación">×</button>';
+    toast.querySelector(".toast-text").textContent = mensaje;
+    container.appendChild(toast);
+
+    const cerrar = () => {
+        toast.classList.add("is-leaving");
+        window.setTimeout(() => toast.remove(), 220);
+    };
+    toast.querySelector(".toast-close").addEventListener("click", cerrar);
+    window.setTimeout(cerrar, 4200);
+};
+
+window.alert = function (mensaje) {
+    window.ecoToast(String(mensaje), "info");
+};
+
 document.addEventListener("DOMContentLoaded", function () {
 
 
@@ -490,6 +518,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
         });
 
+    }
+
+    // Menú de cuenta: evita navegar a una respuesta JSON al cambiar datos.
+    document.querySelectorAll(".account-form").forEach(function (form) {
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const esEliminacion = form.classList.contains("account-delete");
+            if (esEliminacion && !window.confirm("¿Eliminar tu cuenta definitivamente? Esta acción no se puede deshacer.")) {
+                return;
+            }
+
+            try {
+                const response = await fetch(form.action, { method: "POST", body: new FormData(form) });
+                const data = await response.json();
+                if (!response.ok || !data.ok) {
+                    window.ecoToast(data.mensaje || "No fue posible completar la operación.", "error");
+                    return;
+                }
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                    return;
+                }
+                form.reset();
+                window.ecoToast(data.mensaje, "success");
+            } catch (error) {
+                window.ecoToast("Error de conexión con el servidor.", "error");
+            }
+        });
+    });
+
+    // Sincroniza la insignia numérica del carrito en todas las vistas de usuario.
+    const enlacesCarrito = document.querySelectorAll('.nav-links a[href="/carrito/"]');
+    if (enlacesCarrito.length) {
+        fetch('/carrito/contador')
+            .then((respuesta) => respuesta.ok ? respuesta.json() : { cantidad: 0 })
+            .then((datos) => enlacesCarrito.forEach((enlace) => {
+                let contador = enlace.querySelector('.cart-count');
+                if (!contador) {
+                    contador = document.createElement('span');
+                    contador.className = 'cart-count';
+                    enlace.appendChild(contador);
+                }
+                contador.textContent = datos.cantidad;
+                contador.setAttribute('aria-label', datos.cantidad + ' artículos en el carrito');
+            }))
+            .catch(() => {});
     }
 
 });
